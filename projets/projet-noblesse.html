@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Projet - Analyse quantitative des réseaux de la noblesse européenne avec R.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --content-max-width: 1000px; /* largeur max du header/footer, modifiable */
+}
+
+/* STYLES DE BASE (Copier/coller tous vos styles de base) */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Header et footer centrés avec marges */
+.wrapper-limited {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 90%;
+    display: flex; 
+    flex-direction: column;
+    /* 2. FORCER le wrapper à grandir pour prendre toute la place libre du body */
+    flex-grow: 1;
+}
+
+/* Masquage Jekyll inutile */
+.page-header h1, .view-on-github-link, .downloads, .site-footer, .project-tagline { display: none !important; }
+
+/* -------------------------------------------------------------------------- */
+/* NAVIGATION (Desktop) */
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 0;
+}
+.nav-link {
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    color: #0077b5;
+    background-color: #f0f0f0;
+}
+.nav-link:hover {
+    color: #005f96;
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+.nav-link.active {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    border-bottom-color: #fff;
+}
+.nav-links a:last-child { border-top-right-radius: 6px; }
+.nav-links a:first-child { border-top-left-radius: 6px; }
+
+/* -------------------------------------------------------------------------- */
+/* HEADER PERSONNEL (Desktop) */
+.personal-header {
+    display: flex;
+    align-items: center;
+    padding: 40px 50px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: -1px;
+}
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    object-fit: contain;
+}
+.info-container h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #0077b5;
+}
+.info-container p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #555;
+    max-width: 800px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTENU PRINCIPAL (Desktop) */
+.main-content-projects {
+    padding: 15px 20px 0px 20px;
+}
+.main-content-projects h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.project-grid {
+    display: grid;
+    /* Force 3 colonnes de taille égale (1fr) pour la disposition 3x1 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+}
+
+/* ************************************************************************** */
+/* NOUVEAU: STYLE SOMMAIRE (TOC) */
+/* ************************************************************************** */
+:root {
+    /* Ajout d'une variable pour la couleur principale, si non définie */
+    --main-blue: #0077b5;
+}
+
+/* 1. Conteneur principal qui gère l'affichage du bouton et de la liste */
+#toc-wrapper {
+    /* Positionnement nécessaire pour que la liste soit affichée en dessous */
+    position: relative; 
+    display: block; /* Le conteneur ne prend que la place nécessaire au bouton */
+    width: fit-content;
+    margin: 5px auto; /* Centrage si le parent utilise text-align: center */
+    z-index: 10; /* Assure que le menu est au-dessus du contenu en dessous */
+}
+
+/* 2. Style du bouton "Sommaire" (le déclencheur) */
+.toc-button {
+    background-color: var(--main-blue); /* Bleu principal */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px; /* Léger arrondi pour un look plus doux */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex; 
+    align-items: center;
+    gap: 10px; /* Augmentation de l'espace entre l'icône et le texte */
+    /* Box-shadow plus doux */
+    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.25); 
+}
+
+.toc-button:hover {
+    background-color: #005f96; /* Bleu plus foncé au survol */
+    box-shadow: 0 6px 12px rgba(0, 119, 181, 0.35);
+}
+
+/* Style de l'icône de flèche */
+.toc-button i.fa-caret-down {
+    transition: transform 0.3s ease;
+}
+
+/* Rotation de la flèche au survol pour indiquer que le menu s'ouvre */
+#toc-wrapper:hover .toc-button i.fa-caret-down {
+    transform: rotate(180deg);
+}
+
+/* 3. Conteneur de la liste (le menu déroulant) */
+#table-of-contents-container {
+    /* Positionnement absolu pour le dropdown */
+    position: absolute; 
+    top: 100%; /* Commence juste sous le bouton */
+    
+    /* LOGIQUE DE CENTRAGE DU MENU SOUS LE BOUTON */
+    left: 50%; 
+    transform: translateX(-50%);
+    
+    min-width: 300px;
+    
+    /* Style amélioré */
+    background-color: #fff; 
+    border: 1px solid #ddd;
+    border-top: none; 
+    padding: 5px 0; 
+    border-radius: 0 0 8px 8px; 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    
+    /* Masquer par défaut */
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 4. LOGIQUE CLÉ : Affichage de la liste au survol du conteneur principal */
+#toc-wrapper:hover #table-of-contents-container {
+    display: block; 
+    opacity: 1; 
+}
+
+/* 5. Style de la liste des liens */
+#table-of-contents-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+#table-of-contents-list li {
+    margin-bottom: 0;
+    /* Ligne de séparation subtile entre les liens */
+    border-bottom: 1px dashed #eee; 
+}
+#table-of-contents-list li:last-child {
+    border-bottom: none;
+}
+#table-of-contents-list a {
+    text-decoration: none;
+    color: #333; 
+    font-size: 15px;
+    display: block;
+    padding: 5px 15px; /* Légère augmentation pour plus de confort de clic */
+    transition: all 0.2s;
+    border-left: 3px solid transparent; 
+}
+#table-of-contents-list a:hover {
+    color: var(--main-blue); 
+    background-color: #f0f8ff; 
+    border-left: 3px solid var(--main-blue);
+}
+/* Différenciation des sous-sections (H4 - si vous en ajoutez) */
+#table-of-contents-list li.level-4 a {
+    padding-left: 30px; 
+    font-size: 14px;
+    color: #555;
+}
+    
+/* -------------------------------------------------------------------------- */
+/* STYLE DÉDIÉ AUX PAGES PROJET (Simple Article) - COPIER/COLLER ICI */
+
+/* Conteneur principal de l'article */
+.article-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+/* Titre principal du projet */
+.article-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    color: #0077b5;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+/* Sous-titres (Objectif, Données, Nettoyage, etc.) */
+.article-content h3 {
+    font-size: 22px;
+    color: #333;
+    border-left: 4px solid #0077b5;
+    padding-left: 10px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+/* Sous-titre de niveau 4 (Compétences Clés Démontrées) */
+.article-content h4 {
+    font-size: 18px; /* Taille légèrement inférieure à h3 (22px) pour maintenir la hiérarchie */
+    color: #333;
+    border-left: 2px solid #0077b5; /* Bordure gauche, légèrement plus fine que h3 (4px) */
+    padding-left: 10px;
+    margin-top: 5px; /* Moins d'espace au-dessus que h3 (35px) */
+    margin-bottom: 0px;
+}   
+    
+/* Paragraphes */
+.article-content p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-indent: 0 !important;
+}
+
+/* Solution de repli pour annuler les espaces invisibles en début de paragraphe */
+.article-content p::first-line {
+    /* Tentative de réinitialisation si l'espace est interprété comme un alinéa */
+    text-indent: 0 !important; 
+}
+
+/* ************************************************************************** */
+/* NOUVEAU: STYLES LIGHTBOX/MODAL (Zoom image) */
+/* ************************************************************************** */
+.lightbox-trigger {
+    cursor: zoom-in; /* Indique qu'on peut cliquer pour zoomer */
+}
+    
+/* Classe pour les images flottantes (gauche/droite) */
+.float-img-left {
+    float: left;
+    margin: 0 20px 15px 0; /* Haut, Droite, Bas, Gauche */
+    max-width: 45%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.float-img-right {
+    float: right;
+    margin: 0 0 20px 15px; /* Haut, Droite, Bas, Gauche */
+    max-width: 45%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* L'image elle-même dans la Lightbox (pour s'assurer qu'elle n'est pas trop petite/grande) */
+.float-img-left img, .float-img-right img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: inherit; /* Hérite du border-radius du conteneur */
+}
+
+/* Styles pour le Modal */
+#lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Assurez-vous qu'il soit au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9); /* Fond semi-transparent noir */
+    backdrop-filter: blur(5px); /* Optionnel : effet de flou */
+}
+
+#lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1000px; /* Largeur max pour la fenêtre */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#lightbox-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+
+#lightbox-caption {
+    margin: 15px auto;
+    width: 80%;
+    max-width: 1000px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-size: 17px;
+}
+
+/* Bouton de fermeture (Close Button) */
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+    
+/* Correction pour que l'élément suivant ne soit pas affecté par le 'float' */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Amélioration visuelle pour les Vagues de données */
+.data-vagues {
+    /* Style du conteneur de base */
+    background-color: #f9f9f9;
+    padding: 10px 15px; 
+    border-left: 5px solid #0077b5;
+    border-radius: 0 4px 4px 0;
+    margin: 0; /* Réinitialisation pour utiliser les marges des classes flottantes */
+    
+    /* Configuration Grid pour les colonnes (clé pour la lisibilité) */
+    display: grid;
+    /* Ajustement de la largeur des colonnes : 150px pour le terme + reste pour le nombre */
+    grid-template-columns: 150px 1fr;
+    gap: 2px 10px;
+
+    /* Largeur maximale pour une bonne lisibilité */
+    max-width: 300px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.data-vagues dt,
+.data-vagues dd {
+    /* Ajoute 5px de padding en haut et en bas de chaque ligne */
+    padding-top: 3px; 
+    padding-bottom: 3px;
+    margin: 0; /* Assurez-vous qu'aucune marge n'interfère */
+}
+    
+/* Style dédié pour le flottement à GAUCHE (comme pour les images) */
+.data-vagues.float-img-left {
+    float: left;
+    margin: 0 20px 15px 0; /* Haut, Droite, Bas, Gauche */
+}
+
+/* Style dédié pour le flottement à DROITE (comme pour les images) */
+.data-vagues.float-img-right {
+    float: right;
+    /* Marge : Haut=0, Droite=0 (collé à droite), Bas=15px, Gauche=20px (espace avec le texte) */
+    margin: 0 20px 15px 20px; 
+}
+
+/* Amélioration visuelle pour les Étapes de Nettoyage */
+.cleaning-steps {
+    list-style-type: none; /* Cache la puce par défaut */
+    padding-left: 0;
+    margin: 15px 0;
+    counter-reset: section-step;
+}
+    
+.cleaning-steps li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    line-height: 1.5;
+    border-bottom: 1px dashed #eee;
+}
+
+.cleaning-steps li:last-child {
+    border-bottom: none;
+}
+
+.cleaning-steps li::before {
+    /* Création du cercle numéroté bleu */
+    content: counter(section-step); /* Utilise un compteur pour la numérotation */
+    counter-increment: section-step;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Style du cercle */
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #0077b5;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+}
+/* Réinitialisation du compteur pour les listes numérotées */
+.article-content {
+    counter-reset: section-step;
+}
+
+/* NOUVEAU: Style pour centrer des éléments spécifiques dans l'article */
+.article-content .center-content {
+    /* Cette propriété va centrer les éléments 'inline' ou 'inline-block' à l'intérieur de ce div */
+    text-align: center;
+    /* Assurez-vous que cela n'affecte pas l'alignement du texte des paragraphes par défaut (qui sont en 'justify' ailleurs) */
+}
+/* -------------------------------------------------------------------------- */
+/* FOOTER (Desktop) */
+.footer {
+ padding: 30px 0;
+ /* Utilisation d'une marge pour l'espace au-dessus du footer (séparation des projets) */
+ margin-top: 40px; 
+ /* Marge pour l'espace après le footer. 0px pour qu'il soit collé au bas du conteneur parent */
+ margin-bottom: 10px; 
+ background: linear-gradient(135deg, #ffffff 0%, #f7f9fb 100%);
+ box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+ text-align: center;
+ border-radius: 16px;
+ transition: all 0.3s ease;
+}
+    
+.footer-buttons {
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 18px;
+ margin-top: 5px;
+}
+
+.button {
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ padding: 10px 18px;
+ font-size: 15px;
+ font-weight: 500;
+ color: #0077b5;
+ background-color: #f2f6f9;
+ text-decoration: none;
+ border-radius: 8px;
+ border: 1px solid transparent;
+ transition: all 0.25s ease;
+}
+
+.button i {
+ color: #0077b5;
+ transition: color 0.3s ease;
+ font-size: 18px;
+}
+
+.button:hover {
+ background-color: #0077b5;
+ color: #fff;
+ border-color: #0077b5;
+ transform: translateY(-2px);
+ box-shadow: 0 3px 8px rgba(0, 119, 181, 0.25);
+}
+
+.button:hover i {
+ color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE DESIGN (MOBILE ADAPTÉ) - COPIER/COLLER VOTRE BLOC CI-DESSOUS */
+@media (max-width: 768px) {
+    /* -------------------------------------------------------------------------- */
+    /* 1. Conteneurs principaux (EXISTANT ET CONSERVÉ) */
+    .wrapper-limited {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* 2. Navigation (EXISTANT ET CONSERVÉ) */
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
+    .nav-link {
+        font-size: 16px;
+        padding: 10px 18px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+    .nav-link.active {
+        border-bottom-color: #fff;
+    }
+
+    /* 3. Header Personnel (EXISTANT ET CONSERVÉ) */
+    .personal-header {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        padding: 20px 10px; 
+        border-radius: 8px;
+    }
+    .profile-photo { 
+        margin: 0 0 15px 0;
+        width: 120px;
+        height: 120px;
+    }
+    .info-container h1 {
+        font-size: 26px;
+    }
+    .info-container p {
+        font-size: 15px;
+        max-width: 100%; 
+        margin: 5px auto 0 auto;
+        padding: 0 12px 0px 12px;
+    }
+    
+    /* 4. Contenu Principal et Article (EXISTANT ET CONSERVÉ) */
+    .main-content-projects {
+        padding: 25px 15px;
+    }
+    .main-content-projects h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    .article-content {
+        padding: 20px 20px;
+    }
+    .article-content h1 {
+        font-size: 26px;
+    }
+    
+    /* -------------------------------------------------------------------------- */
+    /* NOUVEAUX STYLES CLÉS POUR LE FLUIDITÉ SUR MOBILE */
+    
+    /* A. Neutralisation du flottement pour images et blocs d'informations (.data-vagues) */
+    .float-img-left, .float-img-right {
+        float: none; /* CLÉ: Supprime le flottement */
+        max-width: 100%;
+        margin: 15px auto; /* Centre le bloc entier */
+        display: block; /* Assure le centrage par 'margin: auto' */
+    }
+
+    /* B. Adaptation de la table (.article-content table) */
+    
+    /* Cible le conteneur du Tableau 1 (div avec styles inline) pour gérer le défilement horizontal. */
+    /* Cette solution permet à la table de déborder visuellement tout en permettant le scroll. */
+    .article-content > div[style*="clear: both;"] {
+        overflow-x: auto; /* CLÉ: Permet le défilement horizontal */
+        /* Ajustements pour que le défilement prenne toute la largeur de l'écran */
+        padding-left: 20px; 
+        padding-right: 20px;
+        margin-left: -20px; 
+        margin-right: -20px;
+        padding-bottom: 15px; /* Marge pour la barre de défilement */
+    }
+
+    /* Force la table à l'intérieur à avoir une largeur minimale pour déclencher le défilement */
+    .article-content table {
+        min-width: 600px; /* Assure une lisibilité minimale des colonnes */
+        width: auto !important; /* Annule le 'width: 100%' pour permettre le min-width */
+        margin: 0; 
+        box-sizing: border-box;
+    }
+    /* NOUVEAU: Correction Tableau pleine largeur */
+    .article-content .table-responsive-full {
+        /* Annule le padding horizontal de .article-content (20px) pour dépasser */
+        width: calc(100% + 40px) !important;
+        margin-left: -20px !important;
+        /* Ajoute un défilement horizontal pour les petits écrans */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 10px; /* Petit espace de sécurité sur les côtés */
+        box-sizing: border-box;
+    }
+    
+    /* S'assurer que le tableau a une largeur minimale pour forcer le défilement */
+    .article-content .table-responsive-full table {
+        min-width: 500px;
+    }
+
+/* 1. Rendre les conteneurs de tableaux (les divs) pleine largeur et scrollables */
+    /* Ciblage : div avec style="width: 50%;..." et div avec style="margin: 20px 0;" */
+    div[style*="width: 50%"],
+    div[style*="margin: 20px 0"] {
+        /* Force les conteneurs à prendre toute la largeur disponible sur mobile */
+        width: 100% !important; 
+        margin: 10px 0 !important;
+        padding: 0 5px; /* Ajout d'un petit padding pour la zone de défilement */
+        
+        /* CLÉ: Permet le défilement horizontal pour les tables qui dépassent */
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; /* Améliore le défilement sur iOS */
+    }
+
+    /* 2. Forcer les tables à avoir une largeur minimale pour déclencher le défilement */
+    div[style*="width: 50%"] table,
+    div[style*="margin: 20px 0"] table {
+        /* Assure une largeur minimale pour que les données ne soient pas trop écrasées */
+        min-width: 650px; 
+        width: auto !important; /* Annule le 'width: 100%' pour permettre au min-width de s'appliquer */
+        font-size: 0.9em;
+        /* Les tables utiliseront donc leur min-width, et le div parent gérera le scroll */
+    }
+    
+    /* 3. Ajustement de la taille de police et du padding pour maximiser l'espace à l'intérieur des cellules */
+    div[style*="width: 50%"] table th,
+    div[style*="width: 50%"] table td,
+    div[style*="margin: 20px 0"] table th,
+    div[style*="margin: 20px 0"] table td {
+        padding: 6px 4px !important; /* Réduit le padding des cellules */
+    }
+
+    
+    /* -------------------------------------------------------------------------- */
+    /* 5. Footer (EXISTANT ET CONSERVÉ) */
+    .footer {
+        margin: 10px 15px 10px 15px;
+        padding: 30px 15px;
+        border-radius: 8px;
+        text-align: center; 
+    }
+    .footer-buttons {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        width: 100%; 
+    }
+    .button {
+        width: 90%;
+        justify-content: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .toc-button {
+        display: block; 
+    }
+
+    /* 2. Positionnement et état INITIAL du Sommaire sur mobile/tablette */
+    .toc-wrapper {
+        position: relative;
+        display: block;
+        top: 0; /* Prend toute la hauteur pour centrer */
+        width: fit-content; /* Prend 80% de la largeur du viewport */
+        max-width: 300px;
+        height: 100%;
+        
+        /* TRANSFORME : Cache le menu à gauche de l'écran */
+        transform: translateX(-100%);
+        
+        /* Centrage du contenu du wrapper sur mobile */
+        left: 50%;
+        transform: translateX(-150%); /* Décalage pour le centrer hors champ */
+        
+        /* Assure que la zone de contenu principal est poussée (si nécessaire) */
+        margin-left: 0;
+    }
+    
+    /* 3. État OUVERT (géré par le JavaScript) */
+    .toc-wrapper.toc-open {
+        /* Fait glisser le menu pour le rendre visible, centré */
+        left: 50%;
+        transform: translateX(-50%); /* Centre le menu sur l'écran */
+    }
+
+    /* 4. Gestion de l'arrière-plan (optionnel mais recommandé pour les menus modaux) */
+    body.toc-active {
+        overflow: hidden; /* Empêche le défilement du contenu principal */
+    }
+
+    /* Optionnel : Masque l'icône de fermeture du bouton, car on utilise le clic externe/lien */
+    .toc-button .fa-times {
+        display: none;
+    }
+    
+    .toc-open #table-of-contents-container {
+        display: block !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper-limited">
+    
+    <div class="nav-links">
+        <a href="../index.html" class="nav-link">Mes projets</a>
+        <a href="../about.html" class="nav-link">À propos de moi</a>
+    </div>
+
+    <div class="personal-header">
+        <img src="../photocv.PNG" class="profile-photo" alt="Maëlys François">
+        <div class="info-container">
+            <h1>Maëlys François</h1>
+            <p>Passionnée par <strong>l'analyse de données</strong> avec une expertise pour l'étude des comportements sur les <strong> réseaux sociaux</strong>.</p>
+        </div>
+    </div>
+
+    <div class="main-content-projects">
+        
+<div class="article-content">
+    <h1>Comment la Révolution française a-t-elle influencé la structure du réseau de la noblesse européenne ?</h1>
+    
+    <div class="center-content"> 
+        <div id="toc-wrapper">
+        <div class="toc-button">
+        <i class="fas fa-list-alt"></i> Sommaire <i class="fas fa-caret-down"></i>
+        </div>
+        <div id="table-of-contents-container">
+            <ul id="table-of-contents-list">
+                <li><a href="#objectif">1. Objectif de l'étude</a></li>
+                <li><a href="#donnees">2. Présentation des données</a></li>
+                <li><a href="#nettoyage">3. Nettoyage et construction des réseaux</a></li>
+                <li><a href="#evolution">4.1 Évolution des schémas matrimoniaux</a></li>
+                <li><a href="#oddratio">4.2 Analyse par l'odd ratio</a></li>
+                <li><a href="#centralite">4.3 Centralité et familles dominantes</a></li>
+                <li><a href="#dynamique">4.4 Dynamique des liens et ouverture</a></li>
+                <li><a href="#conclusion">5. Conclusion</a></li>
+                <li><a href="#competences">6. Compétences développées</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>    
+            <div class="clearfix">
+                <h3 id="objectif">1. Objectif de l'étude</h3>
+                <a href="../mesdocuments/console_noblesse.png" class="float-img-left lightbox-trigger" data-alt="Graphique 1 - Script R">
+                    <img src="../mesdocuments/console_noblesse.png" alt="Graphique 1 - Script R">
+                </a>
+                <p>
+                    Cette étude, réalisée dans le cadre de mon master, a pour objectif principal d'<strong>explorer les réseaux de la noblesse européenne</strong> avant (en 1788), pendant (en 1799) et après la Révolution française (en 1820). Le travail s'est concentré sur l'évolution des réseaux des familles jusqu’à l’avènement de Napoléon Bonaparte, en utilisant la sociologie des réseaux comme cadre d'analyse.
+                </p>
+            </div>
+        <hr>
+            <div class="clearfix">
+                <h3 id="donnees">2. Présentation des données</h3>
+                <p>
+                    L'étude repose sur des données historiques de la noblesse européenne (période 1788-1820), récoltées sur Wikipédia et structurées en quatre fichiers CSV distincts pour être analysées dans l'environnement R. Ces fichiers ont été importés et immédiatement convertis en <strong>matrices d'adjacence</strong>.
+                </p>
+                <p>
+                    Ces sources se répartissent comme suit :
+                </p>
+    <ul class="cleaning-steps" style="list-style-type: none; padding-left: 0; margin-left: 0;">
+        <li style="border-bottom: 1px dashed #ddd;">
+            <strong>Attributs des individus (nœuds) :</strong> <code>attributs_compnet.csv</code>, contenant les données biographiques (famille d'appartenance, dates de vie) des personnes étudiées.
+        </li>
+        <li style="border-bottom: 1px dashed #ddd;">
+            <strong>Liens matrimoniaux :</strong> <code>conjoints_compnet.csv</code>, contenant les relations matrimoniales. 
+        </li>
+        <li style="border-bottom: none;">
+            <strong>Liens de parenté verticaux :</strong> <code>enfants_compnet.csv</code> et <code>parents_compnet.csv</code>, essentiels pour reconstituer les matrices de réseau (arêtes) sur différentes générations.
+        </li>
+    </ul>
+</div>
+<hr>
+    <div class="clearfix">
+    <h3 id="nettoyage">3. Nettoyage et construction des réseaux</h3>
+    
+    <h4 style="margin-top: 15px;">A. Harmonisation des noms</h4>
+    <p>
+        Une étape de nettoyage rigoureuse a été indispensable pour garantir l'<strong>uniformité des noms</strong>. Cette uniformisation est indispensable pour le logiciel R pour qu'il puisse reconnaître les mêmes individus dans tous les fichiers (attributs, conjoints, parents) et ainsi construire correctement les liens du réseau. Cette étape a été automatisée grâce à une fonction personnalisée en R (<code>fonction_correc_texte</code>) qui a permis de :
+    </p>
+    <ul class="cleaning-steps">
+        <li><strong>Normaliser la casse</strong> : Conversion de tous les noms en minuscules (<code>tolower()</code>).</li>
+        <li><strong>Gérer les caractères spéciaux</strong> : Suppression des accents et des caractères.</li>
+        <li><strong>Standardiser la ponctuation</strong> : Remplacement des tirets (<code>-</code>) et des virgules (<code>,</code>) par des espaces pour simplifier les correspondances.</li>
+    </ul>
+
+    </div>
+    <div class="clearfix">
+        <figcaption style="text-align: left; margin-top: 10px; font-style: italic; color: #555;">
+        Graphique 2 - Nom des familles avant nettoyage
+    </figcaption>
+    <img src="../mesdocuments/image_noblesse_avantnettoyage.png" class="float-img-left lightbox-trigger" alt="Graphique 2 - Nom des familles avant nettoyage">
+
+        <figcaption style="text-align: right; margin-top: -25px; font-style: italic; color: #555;">
+        Graphique 3 - Nom des familles après nettoyage
+    </figcaption>
+    <img src="../mesdocuments/image_noblesse_aprèsnettoyage.png" class="float-img-right lightbox-trigger" alt="Graphique 3 - Nom des familles après nettoyage">
+    </div>
+    
+    <div class="clearfix">
+    <h4 style="margin-top: 15px;">B. Construction des matrices de réseau</h4>
+    <p>
+        Une fois les données harmonisées, deux matrices d'adjacence relationnelles ont été construites, servant de base aux analyses des vagues (1788, 1799, 1820) :
+    </p>
+        <ul class="cleaning-steps">
+        <li><strong>Réseau des liens directs</strong> : Fusion des matrices de conjoints, enfants et parents, modélisant les relations immédiates d'alliance et de descendance.</li>
+        <li><strong>Réseau de frères et sœurs (fratrie)</strong> : Création d'une matrice spécifique où deux individus sont liés s'ils partagent au moins un parent en commun. Ce réseau permet d'analyser la cohésion et le renforcement des liens familiaux horizontaux.</li>
+    </ul>
+</div>
+<hr>
+    <div class="clearfix">
+        <h3 id="evolution">4.1 Évolution des schémas matrimoniaux</h3>
+                <p>
+                    L'analyse révèle que la Révolution française a significativement influencé les schémas matrimoniaux. Les données montrent une tendance marquée à l'<strong>augmentation des mariages au sein de la même famille</strong> pendant la période révolutionnaire, suggérant un <strong>renforcement des liens familiaux</strong> comme mécanisme de cohésion face aux bouleversements politiques et sociaux.
+                </p>
+                <p>
+                    Cette dynamique est particulièrement visible à travers l'analyse des <strong>graphes Shrink</strong>, où les nœuds représentent les familles et l’épaisseur du lien le nombre de mariages entre elles.
+                </p>
+    </div>
+    <hr>
+            <div class="clearfix">
+                <a href="../mesdocuments/image_noblesse_shrink_1788.png" class="float-img-left lightbox-trigger" data-alt="Graphique 4 - Shrink 1788 : Représentation des mariages inter-familles avant la Révolution.">
+                    <img src="../mesdocuments/image_noblesse_shrink_1788.png" alt="Graphique 4 - Shrink 1788 : Représentation des mariages inter-familles avant la Révolution.">
+                </a>
+                <p>
+                    Le <strong>Shrink de 1788</strong> illustre un réseau encore largement interconnecté. Seules les familles <strong>Linange</strong> et <strong>Lucchesi Palli</strong> n'affichent pas de liens matrimoniaux en dehors de leur propre lignée. On observe une forte alliance entre les <strong>Bourbon</strong> et les <strong>Habsbourg Lorraine</strong>, indiquant leur forte position (haute centralité d’intermédiarité) au sein de la noblesse européenne. <br>
+                </p>
+            </div>
+    <hr>
+            <div class="clearfix">
+                <a href="../mesdocuments/image_noblesse_shrink_1799.png" class="float-img-right lightbox-trigger" data-alt="Graphique 5 - Shrink 1799 : Représentation des mariages inter-familles pendant la Révolution.">
+                    <img src="../mesdocuments/image_noblesse_shrink_1799.png" alt="Graphique 5 - Shrink 1799 : Représentation des mariages inter-familles pendant la Révolution.">
+                </a>
+                <p>
+                    En <strong>1799</strong>, le réseau se resserre : la famille <strong>Este</strong> et les <strong>Habsbourg Toscane</strong> rejoignent les familles sans mariage extérieur. Ce changement pour <strong>Este</strong> est notamment lié à l'absence de la famille Cybo Malaspina dans le réseau à cette date. Par ailleurs, on note une <strong>intensification des mariages</strong> entre les <strong>Habsbourg Lorraine</strong> et les <strong>Habsbourg Este</strong>, signalant une concentration stratégique des alliances en période de crise. <br>
+                </p>
+            </div>
+    <hr>
+            <div class="clearfix">
+                <a href="../mesdocuments/image_noblesse_shrink_1820.png" class="float-img-left lightbox-trigger" data-alt="Graphique 6 - Shrink 1820 : Représentation des mariages inter-familles après la Révolution.">
+                    <img src="../mesdocuments/image_noblesse_shrink_1820.png" alt="Graphique 6 - Shrink 1820 : Représentation des mariages inter-familles après la Révolution.">
+                </a>
+                <p>
+                    Le réseau de 1820 subit un <strong>éclatement structurel.</strong> Le bouleversement des États germaniques par Napoléon 1er (fin du Saint-Empire romain germanique) est visible : les alliances entre Habsbourg Lorraine et Habsbourg Este disparaissent. Des familles comme <strong>Trauner Von Adlstetten</strong> et <strong>Hesse</strong> se retrouvent isolées. Ce graphe final montre un réseau profondément fragmenté et réorganisé. <br>
+                </p>
+            </div>
+            <div class="clearfix">
+                <p>
+                    L'analyse des graphes Shrink confirme l'impact direct des crises géopolitiques sur la structure matrimoniale de la noblesse : le réseau bascule d'un système d'alliances ouvertes à un repli <strong>endogame défensif</strong> (1799), avant de connaître un <strong>éclatement structurel</strong> (1820). Ce démantèlement est la conséquence des recompositions territoriales majeures, notamment la disparition du Saint-Empire romain germanique, signée par Napoléon 1er.
+                </p>
+    <hr>
+        <h3 id="oddratio">4.2 Analyse par l'odd ratio</h3>
+                <p>
+                    Pour quantifier la tendance observée dans les Shrink, j'ai calculé l'<strong>odd ratio</strong> pour les trois années étudiées. L'odd ratio mesure la probabilité relative qu'un mariage se produise <strong>au sein de la même famille (ingroup)</strong> par rapport à la probabilité qu'il se produise <strong>entre différentes familles (outgroup)</strong>.
+                </p>
+                <div style="width: 50%; margin: 20px auto; text-align: center;">
+                    <table border="1" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px; background-color: #f2f2f2;">Année</th>
+                                <th style="padding: 8px; background-color: #f2f2f2;">Probabilité ingroup</th>
+                                <th style="padding: 8px; background-color: #f2f2f2;">Probabilité outgroup</th>
+                                <th style="padding: 8px; background-color: #f2f2f2;">Odd-ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px;">1788</td>
+                                <td style="padding: 8px;">0.01000</td>
+                                <td style="padding: 8px;">0.00743</td>
+                                <td style="padding: 8px;">1.35</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; font-weight: bold; background-color: #e0f7fa;">1799</td>
+                                <td style="padding: 8px; font-weight: bold; background-color: #e0f7fa;">0.01377</td>
+                                <td style="padding: 8px; font-weight: bold; background-color: #e0f7fa;">0.00638</td>
+                                <td style="padding: 8px; font-weight: bold; background-color: #e0f7fa;">2.17</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;">1820</td>
+                                <td style="padding: 8px;">0.00708</td>
+                                <td style="padding: 8px;">0.00488</td>
+                                <td style="padding: 8px;">1.45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    Les résultats confirment l'hypothèse du <strong>repli endogame</strong> :
+                <ul>
+                    <li>L'odd ratio de <strong>1.35 en 1788</strong> indique qu'il y a 1.35 fois plus de chances qu'un mariage ait lieu au sein de la même famille qu'entre différentes familles, une tendance déjà présente.</li>
+                    <li>En <strong>1799</strong>, pendant l'apogée de la période révolutionnaire, cette tendance <strong>augmente considérablement</strong> pour atteindre un odd ratio de <strong>2.17</strong>. Ce pic démontre un <strong>renforcement drastique des mariages au sein d'une même famille</strong>, les alliances familiales servant de stratégie de cohésion face à l'incertitude politique.</li>
+                    <li>En <strong>1820</strong>, l'odd ratio redescend à <strong>1.45</strong>, se rapprochant du niveau pré-révolutionnaire, mais restant supérieur à 1788. Ceci suggère que, malgré la <strong>fragmentation du réseau</strong> suite aux recompositions territoriales, une propension à l'endogamie subsiste.</li>
+                </ul>
+            </p>
+    <hr>      
+        <h3 id="centralite">4.3 Centralité et familles dominantes</h3>
+                <p>
+                    L'analyse des <strong>centralités d'intermédiarité</strong> a permis d'identifier les familles les plus influentes concernant les alliances matrimoniales selon les années. Elle a mis en évidence l'importance stratégique de certaines familles, telles que les <strong>Wittelsbach</strong> et les <strong>Habsbourg Lorraine</strong>, dans la formation d'alliances matrimoniales. Ces familles ont réussi à maintenir une forte influence tout au long de la période, consolidant leur pouvoir et leur prestige en tant qu'intermédiaires centraux.
+                </p>
+                <div style="margin: 20px 0;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="background-color: #f2f2f2;">
+                                <th style="padding: 10px; border: 1px solid #ddd;">Famille</th>
+                                <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Centralité en 1788</th>
+                                <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Centralité en 1799</th>
+                                <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Centralité en 1820</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd;">Wittelsbach</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">101.3</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">72</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">46</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd;">Bourbon</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">38</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">20</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">47</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd;">Habsbourg Lorraine</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">67.3</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">107</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">69</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd;">Wettin</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">56.3</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">80</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">78</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd;">Habsbourg Este</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">70.67</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">73</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">24</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+    <hr>
+<h3 id="dynamique">4.4 Dynamique des liens et ouverture</h3>
+<p>
+    Pour compléter l'analyse de l'endogamie, j'ai calculé les <strong>distances géodésiques</strong>, c'est-à-dire la longueur du chemin le plus court entre deux individus dans le réseau familial. J'ai cherché à déterminer si les individus privilégient les mariages avec des personnes proches de leur réseau familial (faible distance) ou s'ils cherchent des alliances plus lointaines.
+</p>
+<p>
+    J'ai concentré cette analyse sur la famille <strong>Habsbourg-Lorraine</strong>, l'une des familles les plus peuplées du réseau. Pour celle-ci ont été comparées :
+    <ul>
+        <li>La moyenne des distances entre individus appartenant à la même famille (<strong>intra-famille</strong>).</li>
+        <li>La moyenne des distances entre les individus de cette famille et les individus du reste du réseau (<strong>inter-famille</strong>).</li>
+    </ul>
+</p>
+
+<div style="margin: 20px 0;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px; border: 1px solid #ddd; width: 10%;">Année</th>
+                <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Distance intra-Habsbourg-Lorraine</th>
+                <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Distance inter-famille (non-Habsbourg-Lorraine)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">1788</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">2.57</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">4.19</td>
+            </tr>
+            <tr style="background-color: #e0f7fa;">
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">1799</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: bold;">2.02</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: bold;">3.76</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">1820</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">2.16</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">4.77</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>
+    L'analyse pour la famille <strong>Habsbourg-Lorraine</strong> montre que le resserrement interne est particulièrement marqué en <strong>1799</strong>, où la distance intra-famille atteint son minimum (2.02). Simultanément, la distance inter-famille diminue aussi (3.76), indiquant une plus grande proximité avec le reste du réseau, probablement due à l'importance de leurs alliances stratégiques (comme avec Habsbourg Este, vu dans l'analyse Shrink). Cependant, en 1820, la distance inter-famille augmente fortement à 4.77, confirmant le <strong>repli et l'isolement</strong> observés dans le graphe Shrink post-Napoléon.
+</p>
+<p>
+    L'analyse des distances confirme ainsi que la famille <strong>Habsbourg-Lorraine</strong> a utilisé le mariage endogame comme stratégie principale de survie pendant la période de crise.
+</p>
+                <hr>
+                <div class="clearfix">
+                <h3 id="conclusion">5. Conclusion</h3>
+                <p>
+                    En synthèse, cette étude a démontré que <strong>la Révolution française a eu une influence sur les schémas matrimoniaux au sein de la noblesse européenne</strong>, notamment en poussant à un <strong>repli endogame</strong> temporaire. Le maintien d'une forte influence par des familles clés (Wittelsbach, Habsbourg Lorraine) est le signe de stratégies matrimoniales efficaces. Le croisement des analyses (centralité d'intermédiarité et distances géodésiques) souligne une double dynamique : consolidation familiale et ouverture stratégique.             
+                </p>
+            </div>
+        <hr>
+            <div class="clearfix">
+                <h3 id="competences">6. Compétences développées</h3>
+                <ol class="cleaning-steps">
+                    <li><strong>Codage et préparation de données :</strong> Transformation de données brutes (individus, liens familiaux) en fichiers structurés pour l'analyse de réseaux (période 1788-1820).</li>
+                    <li><strong>Nettoyage de données :</strong> Mise en œuvre de scripts de standardisation (normalisation des noms, suppression des caractères spéciaux).</li>
+                    <li><strong>Compétences analytiques :</strong> Expertise dans l'analyse des réseaux sociaux (centralité d'intermédiarité, densité, Odd-Ratio, distances géodésiques) pour structurer et interpréter les dynamiques sociales complexes.</li>
+                    <li><strong>Maîtrise de R :</strong> Complétion d'un script R et conception de matrices d'adjacence pour modéliser les réseaux de parenté et les liens directs.</li>
+                    <li><strong>Interprétation sociologique :</strong> Capacité à mettre en perspective les métriques de réseau avec le contexte historique et sociologique (l'impact de la Révolution française).</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-buttons">
+            <a href="https://www.linkedin.com/in/ma%C3%ABlys-fran%C3%A7ois" class="button" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
+            <a href="../mesdocuments/cv_maëlys_françois.pdf" class="button" target="_blank"><i class="fas fa-file-pdf"></i>Mon CV</a>
+            <a href="mailto:maelys.francois31@gmail.com" class="button"><i class="fas fa-envelope"></i>Mon Email</a>
+        </div>
+    </footer>
+</div>
+<div id="lightbox-modal">
+    <span class="lightbox-close">&times;</span>
+    <div id="lightbox-content">
+        <img id="lightbox-image" src="">
+        <div id="lightbox-caption"></div>
+    </div>
+</div>
+<script>
+    // **************************************************************************
+    // 1. Logique LIGHTBOX/MODAL (pour le zoom des images)
+    // **************************************************************************
+    var modal = document.getElementById("lightbox-modal");
+    var modalImg = document.getElementById("lightbox-image");
+    var captionText = document.getElementById("lightbox-caption");
+    var closeBtn = document.getElementsByClassName("lightbox-close")[0];
+    var triggers = document.querySelectorAll(".lightbox-trigger");
+
+    // 2. Ajout d'événement à chaque lien d'image
+    triggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(event) {
+            // Empêche le navigateur d'aller à l'URL de l'image
+            event.preventDefault(); 
+            
+            // Récupère l'URL de l'image (dans le 'href' du lien <a>)
+            var imgSrc = this.getAttribute('href'); 
+            // Récupère la légende (dans le 'data-alt' du lien <a>)
+            var altText = this.getAttribute('data-alt');
+
+            // Affiche le modal et insère le contenu de l'image
+            modal.style.display = "block";
+            modalImg.src = imgSrc;
+            captionText.innerHTML = altText || this.querySelector('img').alt;
+        });
+    });
+
+    // 3. Logique de FERMETURE 1 : Fermer en cliquant sur la croix
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    // 4. Logique de FERMETURE 2 : Fermer en cliquant sur le fond gris (l'extérieur de l'image)
+    if (modal) {
+        modal.onclick = function(event) {
+            // S'assure que le clic est bien sur le fond et non sur l'image elle-même
+            if (event.target === modal) { 
+                modal.style.display = "none";
+            }
+        }
+    }
+    
+    // 5. Logique de FERMETURE 3 : Fermer en appuyant sur la touche ÉCHAP
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            modal.style.display = "none";
+        }
+    });
+
+    // **************************************************************************
+    // 6. Logique SOMMAIRE/TOC pour mobile (Activation/Désactivation au clic)
+    // **************************************************************************
+var tocWrapper = document.getElementById('toc-wrapper');
+    var tocButton = document.querySelector('.toc-button');
+    var body = document.body; // Référence au body
+
+    if (tocWrapper && tocButton) {
+        
+        // Fonction pour ouvrir/fermer le menu
+        function toggleToc() {
+            // Alterne la classe 'toc-open' sur le conteneur principal.
+            tocWrapper.classList.toggle('toc-open');
+            // Alterne la classe 'toc-active' sur le body pour bloquer le défilement et gérer l'overlay si besoin.
+            body.classList.toggle('toc-active');
+        }
+
+        // 1. Ajoute un écouteur d'événement au clic du bouton "Sommaire"
+        tocButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            toggleToc();
+        });
+
+        // 2. Ferme le sommaire si l'utilisateur clique sur un lien à l'intérieur
+        var tocLinks = document.querySelectorAll('#table-of-contents-list a');
+        tocLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // Ferme le menu après avoir cliqué sur le lien (avec un léger délai pour la navigation)
+                if (tocWrapper.classList.contains('toc-open')) {
+                    setTimeout(function() {
+                        toggleToc();
+                    }, 50); 
+                }
+            });
+        });
+        
+        // 3. Ferme le menu si l'utilisateur clique à l'extérieur (dans la zone de contenu)
+        document.addEventListener('click', function(event) {
+            // Si le clic n'est PAS à l'intérieur du conteneur du sommaire ET PAS sur le bouton lui-même
+            if (
+                tocWrapper.classList.contains('toc-open') &&
+                !tocWrapper.contains(event.target) &&
+                !tocButton.contains(event.target)
+            ) {
+                // Fermer le menu
+                toggleToc();
+            }
+        });
+    }
+</script>
+</body>
+</html>
