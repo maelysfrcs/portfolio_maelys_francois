@@ -1,0 +1,395 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Maëlys François - Page des projets</title>
+    <meta property="og:title" content="Portfolio Maëlys François">
+    <meta property="og:description" content="Bienvenue sur mon portfolio !">
+    <!-- qui présente des projets pertinents réalisés lors de mon cursus universitaire. -->
+    <meta property="og:image" content="https://maelysfrcs.github.io/portfolio/photocv.PNG">
+    <!-- Refresh for Linkedin --> 
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --content-max-width: 1000px; /* largeur max du header/footer, modifiable */
+}
+
+/* STYLES DE BASE */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Header et footer centrés avec marges */
+.wrapper-limited {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 90%;
+    display: flex; 
+    flex-direction: column;
+    /* 2. FORCER le wrapper à grandir pour prendre toute la place libre du body */
+    flex-grow: 1;
+}
+
+/* Masquage Jekyll inutile */
+.page-header h1, .view-on-github-link, .downloads, .site-footer, .project-tagline { display: none !important; }
+
+/* -------------------------------------------------------------------------- */
+/* NAVIGATION (Desktop) */
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 0;
+}
+.nav-link {
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    color: #0077b5;
+    background-color: #f0f0f0;
+}
+.nav-link:hover {
+    color: #005f96;
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+.nav-link.active {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    border-bottom-color: #fff;
+}
+.nav-links a:last-child { border-top-right-radius: 6px; }
+.nav-links a:first-child { border-top-left-radius: 6px; }
+
+/* -------------------------------------------------------------------------- */
+/* HEADER PERSONNEL (Desktop) */
+.personal-header {
+    display: flex;
+    align-items: center;
+    padding: 40px 50px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: -1px;
+}
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    object-fit: contain;
+}
+.info-container h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #0077b5;
+}
+.info-container p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #555;
+    max-width: 800px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTENU PRINCIPAL (Desktop) */
+.main-content-projects {
+    padding: 15px 20px 0px 20px;
+}
+.main-content-projects h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.project-grid {
+    display: grid;
+    /* Force 3 colonnes de taille égale (1fr) pour la disposition 3x1 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+}
+.project-button {
+    display: block;
+    height: 250px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-button:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+.project-button-bg {
+    width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    filter: grayscale(80%);
+    transition: filter 0.5s ease;
+}
+.project-button:hover .project-button-bg { filter: grayscale(0%); }
+
+/* Modification de .project-item */
+.project-item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    /* NOUVEAU : Ajout de la transition pour un mouvement fluide au survol */
+    transition: all 0.3s ease; 
+}
+
+.project-title {
+    /* 1. Taille et Poids : Plus petit, mais toujours bien gras */
+    font-size: 15px; /* Légèrement réduit pour être moins écrasant */
+    font-weight: 600; /* Moins "lourd" que 700, plus professionnel */
+    font-family: 'Poppins', sans-serif; /* Utilise la police des titres (déclarée en haut du code) */
+    /* 2. Couleur : Utiliser la couleur bleue pour un effet "lien/important" */
+    color: #0077b5; 
+    /* 3. Marges : Ajout d'une petite marge en haut pour l'aérer */
+    margin: 5px 0 12px 0; 
+    padding: 0 5px;
+}
+
+.project-item:hover .project-title {
+    color: #005f96; /* Légèrement plus foncé au survol */
+    transform: translateY(-2px); /* Monte légèrement */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Petite ombre légère */
+    transition: all 0.3s ease; /* Rend le changement de couleur/position fluide */
+}
+    
+/* -------------------------------------------------------------------------- */
+/* FOOTER (Desktop) */
+.footer {
+  padding: 30px 0;
+  /* Utilisation d'une marge pour l'espace au-dessus du footer (séparation des projets) */
+  margin-top: 40px; 
+  /* Marge pour l'espace après le footer. 0px pour qu'il soit collé au bas du conteneur parent */
+  margin-bottom: 10px; 
+  background: linear-gradient(135deg, #ffffff 0%, #f7f9fb 100%);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+    
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 5px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0077b5;
+  background-color: #f2f6f9;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.button i {
+  color: #0077b5;
+  transition: color 0.3s ease;
+  font-size: 18px;
+}
+
+.button:hover {
+  background-color: #0077b5;
+  color: #fff;
+  border-color: #0077b5;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 119, 181, 0.25);
+}
+
+.button:hover i {
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE DESIGN (MOBILE ADAPTÉ) */
+@media (max-width: 768px) {
+    /* 1. Conteneurs principaux */
+    .wrapper-limited {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* 2. Navigation */
+    .nav-links {
+        justify-content: center; /* Centre les liens */
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+        margin-bottom: 0px; /* Espace sous les boutons de navigation (adapté) */
+    }
+
+    .nav-link {
+        font-size: 16px;
+        padding: 10px 18px;
+        border: 1px solid #ccc; /* Affichage comme de vrais boutons */
+        border-radius: 6px;
+        border-bottom: 1px solid #ccc; /* Correction de la bordure manquante */
+    }
+    
+    .nav-link.active {
+        /* Correction pour que le bouton actif s'affiche correctement */
+        border-bottom-color: #fff; 
+    }
+
+    /* 3. Header Personnel */
+    .personal-header {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        /* MODIFIER CETTE LIGNE : Réduisez le 15px (padding gauche/droite) à 5px ou 10px */
+        padding: 20px 10px; /* J'ai corrigé '20x' en '20px' et réduit la marge latérale à 10px */
+        border-radius: 8px;
+    }
+    
+    .profile-photo { 
+        margin: 0 0 15px 0; /* Centre la photo et ajoute de l'espace en bas */
+        width: 120px;
+        height: 120px;
+    }
+    
+    .info-container h1 {
+        font-size: 26px; /* Taille adaptée */
+    }
+
+    .info-container p {
+        font-size: 15px;
+        /* Pour assurer qu'il utilise toute la place disponible par le padding du header */
+        max-width: 100%; 
+        margin: 5px auto 0 auto;
+        padding: 0 12px 0px 12px;
+    }
+    
+    /* 4. Contenu Principal (Le reste du contenu est laissé pour s'adapter par défaut, sauf le titre) */
+    .main-content-projects {
+        padding: 25px 15px; /* Réduit le padding du contenu */
+    }
+    
+    .main-content-projects h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .project-grid {
+        /* CORRECTION CLÉ : Change la grille pour n'avoir qu'une seule colonne. */
+        grid-template-columns: 1fr; 
+        /* Diminue l'espace entre les projets verticaux pour gagner de la place. */
+        gap: 20px; 
+    }
+
+    .project-item {
+        /* Assure que chaque projet a une largeur maximale lisible */
+        max-width: 400px; 
+        margin: 0 auto; /* Centre l'élément s'il est plus petit que l'écran */
+    }
+
+    .project-button {
+        /* Ajuste la hauteur si l'image est plus étroite */
+        height: 200px; 
+    }
+    
+    /* Footer (Adaptation à la largeur mobile) */
+    .footer {
+        margin: 10px 15px 10px 15px; /* Marge latérale pour centrage/aération */
+        padding: 30px 15px;
+        border-radius: 8px;
+    }
+    
+    .footer-buttons {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .button {
+        width: 75%;
+        justify-content: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+}
+</style>
+
+<div class="wrapper-limited">
+    <div class="nav-links">
+        <a href="index.html" class="nav-link active">Mes projets</a>
+        <a href="about.html" class="nav-link">À propos de moi</a>
+    </div>
+
+    <div class="personal-header">
+        <img src="photocv.PNG" class="profile-photo" alt="Maëlys François">
+        <div class="info-container">
+            <h1>Maëlys François</h1>
+            <p>Passionnée par <strong>l'analyse de données</strong> avec une expertise pour l'étude des comportements sur les <strong> réseaux sociaux</strong>.</p>
+        </div>
+    </div>
+
+    <div class="main-content-projects">
+        <h2>Mes projets</h2>
+            <div class="project-grid">
+                    
+                <div class="project-item">
+                    <p class="project-title">Collecte et analyse de données issues des réseaux sociaux.</p>
+                    <a href="projets/projet-stage-amulex.html" class="project-button">
+                        <div class="project-button-bg" style="background-image: url('mesdocuments/image_amulex_ACL.jpg');"></div>
+                    </a>
+                </div>
+
+                <div class="project-item">
+                    <p class="project-title">Analyse quantitative des réseaux de la noblesse européenne avec R.</p>
+                    <a href="projets/projet-noblesse.html" class="project-button">
+                        <div class="project-button-bg" style="background-image: url('mesdocuments/image_noblesse_shrink_1799.png');"></div>
+                    </a>
+                </div>
+
+                <div class="project-item">
+                    <p class="project-title">Mobilité des individus et structure des réseaux avec R.</p>
+                    <a href="projets/projet-mobilité.html" class="project-button">
+                        <div class="project-button-bg" style="background-image: url('mesdocuments/image_mobilité.png');"></div>
+                    </a>
+                </div>
+                
+                <div class="project-item"> 
+                    <p class="project-title">Extraction de données Reddit et analyse avec Python.</p>
+                    <a href="projets/projet-web-scraping.html" class="project-button">
+                        <div class="project-button-bg" style="background-image: url('mesdocuments/image_scraping_distributionupvotes.png');"></div>
+                    </a>
+                </div>
+                
+            </div>
+
+    <footer class="footer">
+        <div class="footer-buttons">
+            <a href="https://www.linkedin.com/in/ma%C3%ABlys-fran%C3%A7ois" class="button" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
+            <a href="mesdocuments/cv_maëlys_françois.pdf" class="button" target="_blank"><i class="fas fa-file-pdf"></i>Mon CV</a>
+            <a href="mailto:maelys.francois31@gmail.com" class="button"><i class="fas fa-envelope"></i>Mon Email</a>
+        </div>
+    </footer>
+</div>
