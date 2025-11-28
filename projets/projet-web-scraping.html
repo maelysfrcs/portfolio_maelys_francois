@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Projet - Analyse des discours et réseaux : Genshin Impact</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --content-max-width: 1000px; /* largeur max du header/footer, modifiable */
+}
+
+/* STYLES DE BASE (Copier/coller tous vos styles de base) */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Header et footer centrés avec marges */
+.wrapper-limited {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 90%;
+    display: flex; 
+    flex-direction: column;
+    /* 2. FORCER le wrapper à grandir pour prendre toute la place libre du body */
+    flex-grow: 1;
+}
+
+/* Masquage Jekyll inutile */
+.page-header h1, .view-on-github-link, .downloads, .site-footer, .project-tagline { display: none !important; }
+
+/* -------------------------------------------------------------------------- */
+/* NAVIGATION (Desktop) */
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 0;
+}
+.nav-link {
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    color: #0077b5;
+    background-color: #f0f0f0;
+}
+.nav-link:hover {
+    color: #005f96;
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+.nav-link.active {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    border-bottom-color: #fff;
+}
+.nav-links a:last-child { border-top-right-radius: 6px; }
+.nav-links a:first-child { border-top-left-radius: 6px; }
+
+/* -------------------------------------------------------------------------- */
+/* HEADER PERSONNEL (Desktop) */
+.personal-header {
+    display: flex;
+    align-items: center;
+    padding: 40px 50px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: -1px;
+}
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    object-fit: contain;
+}
+.info-container h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #0077b5;
+}
+.info-container p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #555;
+    max-width: 800px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTENU PRINCIPAL (Desktop) */
+.main-content-projects {
+    padding: 15px 20px 0px 20px;
+}
+.main-content-projects h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.project-grid {
+    display: grid;
+    /* Force 3 colonnes de taille égale (1fr) pour la disposition 3x1 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+}
+
+/* ************************************************************************** */
+/* NOUVEAU: STYLE SOMMAIRE (TOC) */
+/* ************************************************************************** */
+:root {
+    /* Ajout d'une variable pour la couleur principale, si non définie */
+    --main-blue: #0077b5;
+}
+
+/* 1. Conteneur principal qui gère l'affichage du bouton et de la liste */
+#toc-wrapper {
+    /* Positionnement nécessaire pour que la liste soit affichée en dessous */
+    position: relative; 
+    display: block; /* Le conteneur ne prend que la place nécessaire au bouton */
+    width: fit-content;
+    margin: 5px auto; /* Centrage si le parent utilise text-align: center */
+    z-index: 10; /* Assure que le menu est au-dessus du contenu en dessous */
+}
+
+/* 2. Style du bouton "Sommaire" (le déclencheur) */
+.toc-button {
+    background-color: var(--main-blue); /* Bleu principal */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px; /* Léger arrondi pour un look plus doux */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex; 
+    align-items: center;
+    gap: 10px; /* Augmentation de l'espace entre l'icône et le texte */
+    /* Box-shadow plus doux */
+    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.25); 
+}
+
+.toc-button:hover {
+    background-color: #005f96; /* Bleu plus foncé au survol */
+    box-shadow: 0 6px 12px rgba(0, 119, 181, 0.35);
+}
+
+/* Style de l'icône de flèche */
+.toc-button i.fa-caret-down {
+    transition: transform 0.3s ease;
+}
+
+/* Rotation de la flèche au survol pour indiquer que le menu s'ouvre */
+#toc-wrapper:hover .toc-button i.fa-caret-down {
+    transform: rotate(180deg);
+}
+
+/* 3. Conteneur de la liste (le menu déroulant) */
+#table-of-contents-container {
+    /* Positionnement absolu pour le dropdown */
+    position: absolute; 
+    top: 100%; /* Commence juste sous le bouton */
+    
+    /* LOGIQUE DE CENTRAGE DU MENU SOUS LE BOUTON */
+    left: 50%; 
+    transform: translateX(-50%);
+    
+    min-width: 300px;
+    
+    /* Style amélioré */
+    background-color: #fff; 
+    border: 1px solid #ddd;
+    border-top: none; 
+    padding: 5px 0; 
+    border-radius: 0 0 8px 8px; 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    
+    /* Masquer par défaut */
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 4. LOGIQUE CLÉ : Affichage de la liste au survol du conteneur principal */
+#toc-wrapper:hover #table-of-contents-container {
+    display: block; 
+    opacity: 1; 
+}
+
+/* 5. Style de la liste des liens */
+#table-of-contents-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+#table-of-contents-list li {
+    margin-bottom: 0;
+    /* Ligne de séparation subtile entre les liens */
+    border-bottom: 1px dashed #eee; 
+}
+#table-of-contents-list li:last-child {
+    border-bottom: none;
+}
+#table-of-contents-list a {
+    text-decoration: none;
+    color: #333; 
+    font-size: 15px;
+    display: block;
+    padding: 5px 15px; /* Légère augmentation pour plus de confort de clic */
+    transition: all 0.2s;
+    border-left: 3px solid transparent; 
+}
+#table-of-contents-list a:hover {
+    color: var(--main-blue); 
+    background-color: #f0f8ff; 
+    border-left: 3px solid var(--main-blue);
+}
+/* Différenciation des sous-sections (H4 - si vous en ajoutez) */
+#table-of-contents-list li.level-4 a {
+    padding-left: 30px; 
+    font-size: 14px;
+    color: #555;
+}
+    
+/* -------------------------------------------------------------------------- */
+/* STYLE DÉDIÉ AUX PAGES PROJET (Simple Article) - COPIER/COLLER ICI */
+
+/* Conteneur principal de l'article */
+.article-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+/* Titre principal du projet */
+.article-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    color: #0077b5;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+/* Sous-titres (Objectif, Données, Nettoyage, etc.) */
+.article-content h3 {
+    font-size: 22px;
+    color: #333;
+    border-left: 4px solid #0077b5;
+    padding-left: 10px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+/* Sous-titre de niveau 4 (Compétences Clés Démontrées) */
+.article-content h4 {
+    font-size: 18px; /* Taille légèrement inférieure à h3 (22px) pour maintenir la hiérarchie */
+    color: #333;
+    border-left: 2px solid #0077b5; /* Bordure gauche, légèrement plus fine que h3 (4px) */
+    padding-left: 10px;
+    margin-top: 5px; /* Moins d'espace au-dessus que h3 (35px) */
+    margin-bottom: 0px;
+}   
+    
+/* Paragraphes */
+.article-content p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-indent: 0 !important;
+}
+
+/* Solution de repli pour annuler les espaces invisibles en début de paragraphe */
+.article-content p::first-line {
+    /* Tentative de réinitialisation si l'espace est interprété comme un alinéa */
+    text-indent: 0 !important; 
+}
+
+/* ************************************************************************** */
+/* NOUVEAU: STYLES LIGHTBOX/MODAL (Zoom image) */
+/* ************************************************************************** */
+.lightbox-trigger {
+    cursor: zoom-in; /* Indique qu'on peut cliquer pour zoomer */
+}
+    
+/* Classe pour les images flottantes (gauche/droite) */
+.float-img-left {
+    float: left;
+    margin: 0 20px 15px 0; /* Haut, Droite, Bas, Gauche */
+    max-width: 50%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.float-img-right {
+    float: right;
+    margin: 0 0 20px 15px; /* Haut, Droite, Bas, Gauche */
+    max-width: 50%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* L'image elle-même dans la Lightbox (pour s'assurer qu'elle n'est pas trop petite/grande) */
+.float-img-left img, .float-img-right img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: inherit; /* Hérite du border-radius du conteneur */
+}
+
+/* Styles pour le Modal */
+#lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Assurez-vous qu'il soit au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9); /* Fond semi-transparent noir */
+    backdrop-filter: blur(5px); /* Optionnel : effet de flou */
+}
+
+#lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1000px; /* Largeur max pour la fenêtre */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#lightbox-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+
+#lightbox-caption {
+    margin: 15px auto;
+    width: 80%;
+    max-width: 1000px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-size: 17px;
+}
+
+/* Bouton de fermeture (Close Button) */
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+    
+/* Correction pour que l'élément suivant ne soit pas affecté par le 'float' */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Amélioration visuelle pour les Vagues de données */
+.data-vagues {
+    /* Style du conteneur de base */
+    background-color: #f9f9f9;
+    padding: 10px 15px; 
+    border-left: 5px solid #0077b5;
+    border-radius: 0 4px 4px 0;
+    margin: 0; /* Réinitialisation pour utiliser les marges des classes flottantes */
+    
+    /* Configuration Grid pour les colonnes (clé pour la lisibilité) */
+    display: grid;
+    /* Ajustement de la largeur des colonnes : 150px pour le terme + reste pour le nombre */
+    grid-template-columns: 150px 1fr;
+    gap: 2px 10px;
+
+    /* Largeur maximale pour une bonne lisibilité */
+    max-width: 300px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.data-vagues dt,
+.data-vagues dd {
+    /* Ajoute 5px de padding en haut et en bas de chaque ligne */
+    padding-top: 3px; 
+    padding-bottom: 3px;
+    margin: 0; /* Assurez-vous qu'aucune marge n'interfère */
+}
+    
+/* Style dédié pour le flottement à GAUCHE (comme pour les images) */
+.data-vagues.float-img-left {
+    float: left;
+    margin: 0 20px 15px 0; /* Haut, Droite, Bas, Gauche */
+}
+
+/* Style dédié pour le flottement à DROITE (comme pour les images) */
+.data-vagues.float-img-right {
+    float: right;
+    /* Marge : Haut=0, Droite=0 (collé à droite), Bas=15px, Gauche=20px (espace avec le texte) */
+    margin: 0 20px 15px 20px; 
+}
+
+/* Amélioration visuelle pour les Étapes de Nettoyage */
+.cleaning-steps {
+    list-style-type: none; /* Cache la puce par défaut */
+    padding-left: 0;
+    margin: 15px 0;
+    counter-reset: section-step;
+}
+    
+.cleaning-steps li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    line-height: 1.5;
+    border-bottom: 1px dashed #eee;
+}
+
+.cleaning-steps li:last-child {
+    border-bottom: none;
+}
+
+.cleaning-steps li::before {
+    /* Création du cercle numéroté bleu */
+    content: counter(section-step); /* Utilise un compteur pour la numérotation */
+    counter-increment: section-step;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Style du cercle */
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #0077b5;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+}
+/* Réinitialisation du compteur pour les listes numérotées */
+.article-content {
+    counter-reset: section-step;
+}
+
+/* NOUVEAU: Style pour centrer des éléments spécifiques dans l'article */
+.article-content .center-content {
+    /* Cette propriété va centrer les éléments 'inline' ou 'inline-block' à l'intérieur de ce div */
+    text-align: center;
+    /* Assurez-vous que cela n'affecte pas l'alignement du texte des paragraphes par défaut (qui sont en 'justify' ailleurs) */
+}
+/* -------------------------------------------------------------------------- */
+/* FOOTER (Desktop) */
+.footer {
+ padding: 30px 0;
+ /* Utilisation d'une marge pour l'espace au-dessus du footer (séparation des projets) */
+ margin-top: 40px; 
+ /* Marge pour l'espace après le footer. 0px pour qu'il soit collé au bas du conteneur parent */
+ margin-bottom: 10px; 
+ background: linear-gradient(135deg, #ffffff 0%, #f7f9fb 100%);
+ box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+ text-align: center;
+ border-radius: 16px;
+ transition: all 0.3s ease;
+}
+    
+.footer-buttons {
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 18px;
+ margin-top: 5px;
+}
+
+.button {
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ padding: 10px 18px;
+ font-size: 15px;
+ font-weight: 500;
+ color: #0077b5;
+ background-color: #f2f6f9;
+ text-decoration: none;
+ border-radius: 8px;
+ border: 1px solid transparent;
+ transition: all 0.25s ease;
+}
+
+.button i {
+ color: #0077b5;
+ transition: color 0.3s ease;
+ font-size: 18px;
+}
+
+.button:hover {
+ background-color: #0077b5;
+ color: #fff;
+ border-color: #0077b5;
+ transform: translateY(-2px);
+ box-shadow: 0 3px 8px rgba(0, 119, 181, 0.25);
+}
+
+.button:hover i {
+ color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE DESIGN (MOBILE ADAPTÉ) - COPIER/COLLER VOTRE BLOC CI-DESSOUS */
+@media (max-width: 768px) {
+    /* -------------------------------------------------------------------------- */
+    /* 1. Conteneurs principaux (EXISTANT ET CONSERVÉ) */
+    .wrapper-limited {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* 2. Navigation (EXISTANT ET CONSERVÉ) */
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
+    .nav-link {
+        font-size: 16px;
+        padding: 10px 18px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+    .nav-link.active {
+        border-bottom-color: #fff;
+    }
+
+    /* 3. Header Personnel (EXISTANT ET CONSERVÉ) */
+    .personal-header {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        padding: 20px 10px; 
+        border-radius: 8px;
+    }
+    .profile-photo { 
+        margin: 0 0 15px 0;
+        width: 120px;
+        height: 120px;
+    }
+    .info-container h1 {
+        font-size: 26px;
+    }
+    .info-container p {
+        font-size: 15px;
+        max-width: 100%; 
+        margin: 5px auto 0 auto;
+        padding: 0 12px 0px 12px;
+    }
+    
+    /* 4. Contenu Principal et Article (EXISTANT ET CONSERVÉ) */
+    .main-content-projects {
+        padding: 25px 15px;
+    }
+    .main-content-projects h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    .article-content {
+        padding: 20px 20px;
+    }
+    .article-content h1 {
+        font-size: 26px;
+    }
+    
+    /* -------------------------------------------------------------------------- */
+    /* NOUVEAUX STYLES CLÉS POUR LE FLUIDITÉ SUR MOBILE */
+    
+    /* A. Neutralisation du flottement pour images et blocs d'informations (.data-vagues) */
+    .float-img-left, .float-img-right {
+        float: none; /* CLÉ: Supprime le flottement */
+        max-width: 100%;
+        margin: 15px auto; /* Centre le bloc entier */
+        display: block; /* Assure le centrage par 'margin: auto' */
+    }
+
+    /* B. Adaptation de la table (.article-content table) */
+    
+    /* Cible le conteneur du Tableau 1 (div avec styles inline) pour gérer le défilement horizontal. */
+    /* Cette solution permet à la table de déborder visuellement tout en permettant le scroll. */
+    .article-content > div[style*="clear: both;"] {
+        overflow-x: auto; /* CLÉ: Permet le défilement horizontal */
+        /* Ajustements pour que le défilement prenne toute la largeur de l'écran */
+        padding-left: 20px; 
+        padding-right: 20px;
+        margin-left: -20px; 
+        margin-right: -20px;
+        padding-bottom: 15px; /* Marge pour la barre de défilement */
+    }
+
+    /* Force la table à l'intérieur à avoir une largeur minimale pour déclencher le défilement */
+    .article-content table {
+        min-width: 600px; /* Assure une lisibilité minimale des colonnes */
+        width: auto !important; /* Annule le 'width: 100%' pour permettre le min-width */
+        margin: 0; 
+        box-sizing: border-box;
+    }
+    /* NOUVEAU: Correction Tableau pleine largeur */
+    .article-content .table-responsive-full {
+        /* Annule le padding horizontal de .article-content (20px) pour dépasser */
+        width: calc(100% + 40px) !important;
+        margin-left: -20px !important;
+        /* Ajoute un défilement horizontal pour les petits écrans */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 10px; /* Petit espace de sécurité sur les côtés */
+        box-sizing: border-box;
+    }
+    
+    /* S'assurer que le tableau a une largeur minimale pour forcer le défilement */
+    .article-content .table-responsive-full table {
+        min-width: 500px;
+    }
+    
+    /* -------------------------------------------------------------------------- */
+    /* 5. Footer (EXISTANT ET CONSERVÉ) */
+    .footer {
+        margin: 10px 15px 10px 15px;
+        padding: 30px 15px;
+        border-radius: 8px;
+        text-align: center; 
+    }
+    .footer-buttons {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        width: 100%; 
+    }
+    .button {
+        width: 90%;
+        justify-content: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .toc-button {
+        display: block; 
+    }
+
+    /* 2. Positionnement et état INITIAL du Sommaire sur mobile/tablette */
+    .toc-wrapper {
+        position: relative;
+        display: block;
+        top: 0; /* Prend toute la hauteur pour centrer */
+        width: fit-content; /* Prend 80% de la largeur du viewport */
+        max-width: 300px;
+        height: 100%;
+        
+        /* TRANSFORME : Cache le menu à gauche de l'écran */
+        transform: translateX(-100%);
+        
+        /* Centrage du contenu du wrapper sur mobile */
+        left: 50%;
+        transform: translateX(-150%); /* Décalage pour le centrer hors champ */
+        
+        /* Assure que la zone de contenu principal est poussée (si nécessaire) */
+        margin-left: 0;
+    }
+    
+    /* 3. État OUVERT (géré par le JavaScript) */
+    .toc-wrapper.toc-open {
+        /* Fait glisser le menu pour le rendre visible, centré */
+        left: 50%;
+        transform: translateX(-50%); /* Centre le menu sur l'écran */
+    }
+
+    /* 4. Gestion de l'arrière-plan (optionnel mais recommandé pour les menus modaux) */
+    body.toc-active {
+        overflow: hidden; /* Empêche le défilement du contenu principal */
+    }
+
+    /* Optionnel : Masque l'icône de fermeture du bouton, car on utilise le clic externe/lien */
+    .toc-button .fa-times {
+        display: none;
+    }
+    
+    .toc-open #table-of-contents-container {
+        display: block !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper-limited">
+    
+    <div class="nav-links">
+        <a href="../index.html" class="nav-link">Mes projets</a>
+        <a href="../about.html" class="nav-link">À propos de moi</a>
+    </div>
+
+    <div class="personal-header">
+        <img src="../photocv.PNG" class="profile-photo" alt="Maëlys François">
+        <div class="info-container">
+            <h1>Maëlys François</h1>
+            <p>Passionnée par <strong>l'analyse de données</strong> avec une expertise pour l'étude des comportements sur les <strong> réseaux sociaux</strong>.</p>
+        </div>
+    </div>
+
+    <div class="main-content-projects">
+        
+<div class="article-content">
+  <h1>Comment la monétisation façonne le discours des joueurs sur les plateformes communautaires ?</h1>
+    
+    <div class="center-content"> 
+        <div id="toc-wrapper">
+        <div class="toc-button">
+        <i class="fas fa-list-alt"></i> Sommaire <i class="fas fa-caret-down"></i>
+        </div>
+        <div id="table-of-contents-container">
+            <ul id="table-of-contents-list">
+                <li><a href="#objectif">1. Objectif de l'étude</a></li>
+                <li><a href="#donnees">2. Présentation des données</a></li>
+                <li><a href="#strategie">3. Stratégie de collecte</a></li>
+                <li><a href="#nettoyage">4. Nettoyage et préparation des données</a></li>
+                <li><a href="#topicmodeling">5.1 Résultats : Modélisation par thématique (Topic Modeling NMF)</a></li>
+                <li><a href="#sentiments">5.2 Résultats : Analyse de sentiments</a></li>
+                <li><a href="#conclusion">6. Conclusion</a></li>
+                <li><a href="#competences">7. Compétences développées</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>    
+            <div class="clearfix">
+                <h3 id="objectif">1. Objectif de l'étude</h3>
+                <p>
+                  Cette étude vise à analyser l’impact des nouveaux modèles économiques des jeux vidéo, notamment les pratiques de monétisation comme le système <strong>Free-to-Play</strong> (F2P) et le <strong>Pay-to-Win</strong> (P2W), sur les échanges et les perceptions des joueurs au sein des communautés en ligne.
+                </p>
+            </section>
+                </p>
+            </div>
+        <hr>
+            <div class="clearfix">
+                <h3 id="donnees">2. Présentation des données</h3>
+              <p>
+                  L'analyse s'est concentrée sur la plateforme <strong>Reddit</strong>, en ciblant spécifiquement le subreddit <strong>r/Genshin_Impact</strong>.
+              </p>
+              <p>
+                  Le jeu Genshin Impact a été choisi pour sa grande popularité (plus de 100 millions de téléchargements) et son système de monétisation (Gacha, Battlepass, monnaie) qui crée une <strong>forte tension</strong> entre les joueurs « gratuits » et les « payeurs » (F2P vs P2W). De plus, Reddit, en tant que plateforme communautaire structurée en subreddits thématiques, offre un corpus textuel riche, essentiel à la pertinence des analyses de NLP et de sentiment.
+              </p>    
+              <ol class="cleaning-steps">
+                <li><strong>Source de collecte</strong> : Le subreddit r/Genshin_Impact sur Reddit.</li>
+                <li><strong>Mots-clés principaux</strong> : La recherche a été centrée autour de plusieurs termes reliés à la monétisation : « free-to-play », « genesis crystals » (la monnaie dans le jeu) ou encore « battlepass » (abonnement payant dans le jeu).</li>
+              </ol>
+            </div>
+        <hr>
+            <div class="clearfix">
+                <h3 id="strategie">3. Stratégie de collecte</h3>
+                <a href="../mesdocuments/image_scraping_console.PNG" class="float-img-right lightbox-trigger" data-alt="Graphique 1 - Script Python">
+                    <img src="../mesdocuments/image_scraping_console.PNG" alt="Graphique 1 : Script Python">
+                </a>
+                <p>
+                    La collecte des données a été réalisée sur Google Colaboratory en utilisant l'API officielle de Reddit.
+                </p>
+            </div>
+            <div class="clearfix">
+                <ol class="cleaning-steps">
+                    <li><strong>Outil</strong> : Utilisation de la librairie <strong>"asyncpraw"</strong> en Python pour interroger l'API Reddit.</li>
+                    <li><strong>Méthode</strong> : Le processus s'est déroulé en deux phases : d'abord la collecte des <strong>posts</strong> contenant le mot-clé spécifique, puis une boucle pour collecter l'intégralité des <strong>commentaires</strong> associés à chacun des posts trouvés.</li>
+                    <li><strong>Sauvegarde</strong> : Les résultats ont été structurés et enregistrés dans des fichiers CSV dédiés (par exemple "posts_battlepass.csv" et "comments_battlepass.csv.csv") </li>
+                    <li><strong>Volume des données</strong> : La collecte initiale a permis d'obtenir <strong>236 posts</strong> et <strong>1507 commentaires</strong> associés aux mots-clés ciblés.</li>
+                </ol>
+            </div>
+        <hr>
+              <div class="clearfix">
+                <h3 id="nettoyage">4. Nettoyage et préparation des données.</h3>
+                <a href="../mesdocuments/image_scraping_nettoyage.PNG" class="float-img-left lightbox-trigger" data-alt="Graphique 2 - Script Python : Nettoyage">
+                    <img src="../mesdocuments/image_scraping_nettoyage.PNG" alt="Graphique 2 - Script Python : Nettoyage">
+                </a>
+                <p>
+                  Un processus de <strong>Natural Language Processing (NLP)</strong> a été appliqué aux données textuelles brutes pour le Topic Modeling
+                </p>
+            </div>
+            <div class="clearfix">
+                <ol class="cleaning-steps">
+                  <li><strong>Lemmatisation et filtrage sémantique</strong> : Utilisation de la librairie <strong>spaCy</strong> pour réduire chaque mot à sa racine (lemmatisation) et pour ne conserver que les mots ayant un sens analytique fort (<strong>noms</strong>, <strong>verbes</strong> et <strong>noms propres</strong>).</li>
+                  <li><strong>Suppression des mots vides (stop words)</strong> : Retrait des mots courants de la langue anglaise pour augmenter la pertinence des mots-clés dans l'analyse.</li>
+                  <li><strong>Filtrage et standardisation</strong> : Les posts vides ou peu informatifs (moins de <strong>10 mots</strong>) ont été écartés, et les textes ont été limités à un maximum de <strong>500 mots</strong> pour optimiser le temps de traitement sans perdre le contexte essentiel.</li>                
+                </ol>
+            </div>
+        <hr>
+            <div class="clearfix">
+                <h3 id="topicmodeling">5.1 Résultats : Modélisation par thématique (Topic Modeling NMF)</h3>
+        <p>
+            L’analyse thématique a été réalisée à l’aide de la <strong>Factorisation en Matrices Non-Négatives (NMF)</strong>, une méthode permettant d’identifier des thèmes récurrents dans les discussions Reddit. Le corpus a été transformé en une matrice <strong>TF-IDF</strong> avant d’être décomposé en <strong>10 topics principaux</strong>. Chaque topic est caractérisé par un ensemble de mots-clés représentatifs.
+        </p>
+        <p>
+            Les discussions autour de Genshin Impact sur Reddit sont structurées en plusieurs grands thèmes qui révèlent les préoccupations majeures des joueurs. Le Topic Modeling avec NMF a permis d’identifier 10 topics principaux, couvrant des aspects variés du jeu, allant de la progression des personnages aux systèmes de monétisation.
+        </p>
+        <hr>
+        <h4>Analyse des contributions par mots</h4>
+                <a href="../mesdocuments/image_scraping_motspartopic.png" class="float-img-right lightbox-trigger" data-alt="Graphique 3 - Contribution des mots par topic">
+                    <img src="../mesdocuments/image_scraping_motspartopic.png" alt="Graphique 3 : Nettoyage">
+                </a>
+        <p>
+            Les topics 2, 3 et 9 ont été enlevés de l'analyse, car ils traitaient d’informations peu pertinentes pour mon questionnement (Topic 2 : <em>png, redd, webp</em>; Topic 3 : <em>megathread, restrict_sr, 22</em>; Topic 9 : <em>com, https, www</em>). Ce graphique montre que certains topics sont fortement liés à l’expérience de jeu, comme ceux concernant les <strong>quêtes</strong>, les <strong>bannières de personnages</strong>, et l'<strong>optimisation des équipes</strong>. D’autres sujets portent davantage sur des aspects financiers, notamment les <strong>microtransactions</strong>, <strong>l'achat de genesis crystals</strong>, et les mécaniques de <strong>gacha</strong>.
+        </p>
+            </div>
+            <div class="clearfix">
+        <hr>
+        <h4>Projection des discussions (PCA)</h4>
+                <a href="../mesdocuments/image_scraping_projection2d.png" class="float-img-left lightbox-trigger" data-alt="Graphique 4 - Projection 2D des topics avec PCA (colorée par topic)">
+                    <img src="../mesdocuments/image_scraping_projection2d.png" alt="Graphique 4 : Projection 2D des topics avec PCA (colorée par topic)">
+                </a>
+        <p>
+            Pour mieux comprendre la structuration des discussions, une projection PCA (Analyse en Composantes Principales) a été réalisée, appliquée aux résultats du NMF. Les posts sont d'abord vectorisés avec TF-IDF, puis classés en topics grâce à NMF, et enfin projetés en 2D pour observer la répartition des discussions selon leurs similarités thématiques.
+        </p>
+        <p>
+            Il est possible d'observer que les discussions se regroupent en <strong>clusters bien définis</strong>, ce qui suggère une segmentation forte des échanges entre joueurs. Certains points isolés indiquent des conversations plus atypiques ou spécifiques.
+        </p>
+    </div>
+     
+<hr>
+    <div class="clearfix">
+        <h3 id="sentiments">5.2 Résultats : Analyse de sentiments</h3>
+        <p>
+            L’analyse de sentiment, réalisée via le modèle <strong>VADER</strong>, a permis de quantifier la tonalité émotionnelle des <strong>259 488 posts</strong> discutant des mécanismes de monétisation. Cette approche vise à identifier les <strong>tensions critiques</strong> et les <strong>leviers d'engagement</strong> au sein de la communauté.
+        </p>
+    </div>
+    <div class="clearfix">
+        <h4>Tension critique entre le modèle Free-to-Play (F2P) et le modèle Pay-to-Win (P2W)</h4>
+        <div class="clearfix definition-block" style="border-left: 5px solid #007bff; padding: 15px; margin: 15px 0; background-color: #f7f9fc;">
+        <div style="display: flex; justify-content: space-around;">
+            <div style="flex: 1; margin-right: 10px;">
+                <strong style="color: #28a745;">Free-to-Play (F2P)</strong>
+                <p style="font-size: 0.9em; margin-bottom: 0;">Le joueur progresse par son <strong>temps et son effort</strong>.</p>
+            </div>
+            <div style="flex: 1; margin-left: 10px;">
+                <strong style="color: #dc3545;">Pay-to-Win (P2W)</strong>
+                <p style="font-size: 0.9em; margin-bottom: 0;">Le joueur progresse en investissant de l'<strong>argent réel</strong> pour obtenir des avantages significatifs.</p>
+            </div>
+        </div>
+        </div>
+        <p>
+            L'analyse distingue l'impact émotionnel des deux principaux modèles de progression sur les perceptions des joueurs.
+        </p>
+        <a href="../mesdocuments/image_scraping_comparaisonsentiments.png" class="float-img-left lightbox-trigger" data-alt="Graphique 5 - Comparaison des sentiments entre Free-To-Play et Pay-To-Win">
+            <img src="../mesdocuments/image_scraping_comparaisonsentiments.png" alt="Graphique 5 - Comparaison des sentiments entre Free-To-Play et Pay-To-Win">
+        </a>
+        <p>
+        Le graphique compare les sentiments exprimés dans les posts évoquant les pratiques F2P et P2W. Les sentiments ont été classés en cinq catégories (Mixed Negative, Negative, Neutral, Mixed Positive, Positive).
+    </p>
+    <p>
+        Les posts mentionnant les pratiques <strong>F2P ont un sentiment moyen significativement plus positif</strong> que ceux parlant de P2W, avec une différence hautement significative confirmée par un test t de Student (p-value < 0.05).
+    </p>
+    <p>
+        Ce résultat suggère que les discussions sur le <strong>Pay-to-Win suscitent plus de critiques et d’insatisfaction</strong> en raison de la perception de mécanismes injustes ou déséquilibrés. À l’inverse, bien que le F2P puisse générer de la frustration, les échanges restent globalement moins négatifs.
+    </p>
+        
+        <p style="clear: both;">
+            <a href="../mesdocuments/image_scraping_distributionupvotes.png" class="float-img-right lightbox-trigger" data-alt="Graphique 6 - Distribution des upvotes pour Free-To-Play et Pay-To-Win">
+                <img src="../mesdocuments/image_scraping_distributionupvotes.png" alt="Graphique 6 - Distribution des upvotes pour Free-To-Play et Pay-To-Win">
+            </a>
+            Les posts liés au <strong>P2W</strong> génèrent un engagement nettement supérieur, avec une moyenne d’upvotes de <strong>257.57</strong> contre <strong>90.02</strong> pour le F2P. Le P2W est le sujet le <strong>plus polarisant et le plus discuté</strong>.
+        </p>
+        <p>
+            Cette représentation graphique permet de quantifier la tension autour de l'équité du jeu et déterminer quel modèle génère le plus de débats. Les discussions sur le Pay-to-Win suscitent alors plus d'engouement. <br>
+        </p>
+    </div>
+<hr>
+            <div class="clearfix">
+                <h3 id="conclusion">6. Conclusion</h3>
+                <p>
+                    Cette analyse a montré une <strong>segmentation claire</strong> du discours des joueurs de Genshin Impact sur Reddit, révélée par l'analyse thématique. D'un côté, il y a les discussions sur l'expérience de jeu (quêtes, personnages...), et de l'autre, les mécanismes reliées à la monétisation :  
+            </p>
+            <ul>
+                <li>Bien que les discussions sur l'argent ne soient pas systématiquement négatives, le modèle P2W génère un sentiment moyen <strong>significativement plus critique</strong> que le F2P.</li>
+                <li>Les posts P2W reçoivent un nombre d'upvotes nettement supérieur, confirmant que ce sujet fait réagir, qu'il divise et qu'il est central dans les débats autour du jeu.</li>
+            </ul>
+            <p>
+                En synthèse, le projet suggère que le facteur clé de la vitalité des échanges n'est pas simplement le ton des messages, mais principalement l'<strong>équité face aux mécanismes financiers.</strong> Le modèle Pay-To-Win est identifié comme le moteur principal de la discussion car il est le plus susceptible de remettre en question l'équilibre du jeu. Les résultats invitent à poursuivre l’analyse pour mieux comprendre comment ces pratiques façonnent l’engagement des joueurs sur le long terme.
+            </p>
+            </div>
+        <hr>
+            <div class="clearfix">
+                <h3 id="competences">7. Compétences développées</h3>
+                <ol class="cleaning-steps">
+                    <li><strong>Collecte de données massives :</strong> Maîtrise de l'API Reddit (librairie asyncpraw en Python) pour l'extraction de corpus textuels à grande échelle.</li>
+                    <li><strong>Traitement du Langage Naturel (NLP) :</strong> Mise en œuvre des techniques de lemmatisation, gestion des stop words et filtrage sémantique (spaCy) pour préparer des données textuelles à l'analyse.</li>
+                    <li><strong>Modélisation et analyse thématique :</strong> Application et interprétation de la factorisation en matrices non-négatives (NMF) et de la réduction de dimensionnalité (PCA) pour la structuration de corpus.</li>
+                    <li><strong>Analyse de sentiments :</strong> Utilisation et interprétation du modèle VADER pour quantifier la tonalité émotionnelle des échanges communautaires.</li>
+                    <li><strong>Analyse statistique :</strong> Application de tests statistiques (Test T de Student) pour valider la signification des différences de sentiments et d'engagement (upvotes) entre groupes.</li>
+                    <li><strong>Interprétation stratégique :</strong> Capacité à traduire des métriques techniques (scores de sentiment, upvotes) en conclusions claires et concises.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-buttons">
+            <a href="https://www.linkedin.com/in/ma%C3%ABlys-fran%C3%A7ois" class="button" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
+            <a href="../mesdocuments/cv_maëlys_françois.pdf" class="button" target="_blank"><i class="fas fa-file-pdf"></i>Mon CV</a>
+            <a href="mailto:maelys.francois31@gmail.com" class="button"><i class="fas fa-envelope"></i>Mon Email</a>
+        </div>
+    </footer>
+</div>
+<div id="lightbox-modal">
+    <span class="lightbox-close">&times;</span>
+    <div id="lightbox-content">
+        <img id="lightbox-image" src="">
+        <div id="lightbox-caption"></div>
+    </div>
+</div>
+<script>
+    // **************************************************************************
+    // 1. Logique LIGHTBOX/MODAL (pour le zoom des images)
+    // **************************************************************************
+    var modal = document.getElementById("lightbox-modal");
+    var modalImg = document.getElementById("lightbox-image");
+    var captionText = document.getElementById("lightbox-caption");
+    var closeBtn = document.getElementsByClassName("lightbox-close")[0];
+    var triggers = document.querySelectorAll(".lightbox-trigger");
+
+    // 2. Ajout d'événement à chaque lien d'image
+    triggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(event) {
+            // Empêche le navigateur d'aller à l'URL de l'image
+            event.preventDefault(); 
+            
+            // Récupère l'URL de l'image (dans le 'href' du lien <a>)
+            var imgSrc = this.getAttribute('href'); 
+            // Récupère la légende (dans le 'data-alt' du lien <a>)
+            var altText = this.getAttribute('data-alt');
+
+            // Affiche le modal et insère le contenu de l'image
+            modal.style.display = "block";
+            modalImg.src = imgSrc;
+            captionText.innerHTML = altText || this.querySelector('img').alt;
+        });
+    });
+
+    // 3. Logique de FERMETURE 1 : Fermer en cliquant sur la croix
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    // 4. Logique de FERMETURE 2 : Fermer en cliquant sur le fond gris (l'extérieur de l'image)
+    if (modal) {
+        modal.onclick = function(event) {
+            // S'assure que le clic est bien sur le fond et non sur l'image elle-même
+            if (event.target === modal) { 
+                modal.style.display = "none";
+            }
+        }
+    }
+    
+    // 5. Logique de FERMETURE 3 : Fermer en appuyant sur la touche ÉCHAP
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            modal.style.display = "none";
+        }
+    });
+
+    // **************************************************************************
+    // 6. Logique SOMMAIRE/TOC pour mobile (Activation/Désactivation au clic)
+    // **************************************************************************
+var tocWrapper = document.getElementById('toc-wrapper');
+    var tocButton = document.querySelector('.toc-button');
+    var body = document.body; // Référence au body
+
+    if (tocWrapper && tocButton) {
+        
+        // Fonction pour ouvrir/fermer le menu
+        function toggleToc() {
+            // Alterne la classe 'toc-open' sur le conteneur principal.
+            tocWrapper.classList.toggle('toc-open');
+            // Alterne la classe 'toc-active' sur le body pour bloquer le défilement et gérer l'overlay si besoin.
+            body.classList.toggle('toc-active');
+        }
+
+        // 1. Ajoute un écouteur d'événement au clic du bouton "Sommaire"
+        tocButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            toggleToc();
+        });
+
+        // 2. Ferme le sommaire si l'utilisateur clique sur un lien à l'intérieur
+        var tocLinks = document.querySelectorAll('#table-of-contents-list a');
+        tocLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // Ferme le menu après avoir cliqué sur le lien (avec un léger délai pour la navigation)
+                if (tocWrapper.classList.contains('toc-open')) {
+                    setTimeout(function() {
+                        toggleToc();
+                    }, 50); 
+                }
+            });
+        });
+        
+        // 3. Ferme le menu si l'utilisateur clique à l'extérieur (dans la zone de contenu)
+        document.addEventListener('click', function(event) {
+            // Si le clic n'est PAS à l'intérieur du conteneur du sommaire ET PAS sur le bouton lui-même
+            if (
+                tocWrapper.classList.contains('toc-open') &&
+                !tocWrapper.contains(event.target) &&
+                !tocButton.contains(event.target)
+            ) {
+                // Fermer le menu
+                toggleToc();
+            }
+        });
+    }
+</script>
+</body>
+</html>
