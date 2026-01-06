@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Projet - Collecte et analyse de données des réseaux sociaux numériques</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    
+<style>
+:root {
+    --content-max-width: 1000px; /* largeur max du header/footer, modifiable */
+}
+
+/* STYLES DE BASE (Copier/coller tous vos styles de base) */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Header et footer centrés avec marges */
+.wrapper-limited {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 90%;
+    display: flex; 
+    flex-direction: column;
+    /* 2. FORCER le wrapper à grandir pour prendre toute la place libre du body */
+    flex-grow: 1;
+}
+
+/* Masquage Jekyll inutile */
+.page-header h1, .view-on-github-link, .downloads, .site-footer, .project-tagline { display: none !important; }
+
+/* -------------------------------------------------------------------------- */
+/* NAVIGATION (Desktop) */
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 0;
+}
+.nav-link {
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    color: #0077b5;
+    background-color: #f0f0f0;
+}
+.nav-link:hover {
+    color: #005f96;
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+.nav-link.active {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    border-bottom-color: #fff;
+}
+.nav-links a:last-child { border-top-right-radius: 6px; }
+.nav-links a:first-child { border-top-left-radius: 6px; }
+
+/* -------------------------------------------------------------------------- */
+/* HEADER PERSONNEL (Desktop) */
+.personal-header {
+    display: flex;
+    align-items: center;
+    padding: 40px 50px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: -1px;
+}
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    object-fit: contain;
+}
+.info-container h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #0077b5;
+}
+.info-container p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #555;
+    max-width: 800px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTENU PRINCIPAL (Desktop) */
+.main-content-projects {
+    padding: 15px 20px 0px 20px;
+}
+.main-content-projects h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.project-grid {
+    display: grid;
+    /* Force 3 colonnes de taille égale (1fr) pour la disposition 3x1 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+}
+
+/* ************************************************************************** */
+/* NOUVEAU: STYLE SOMMAIRE (TOC) */
+/* ************************************************************************** */
+:root {
+    /* Ajout d'une variable pour la couleur principale, si non définie */
+    --main-blue: #0077b5;
+}
+
+/* 1. Conteneur principal qui gère l'affichage du bouton et de la liste */
+#toc-wrapper {
+    /* Positionnement nécessaire pour que la liste soit affichée en dessous */
+    position: relative; 
+    display: block; /* Le conteneur ne prend que la place nécessaire au bouton */
+    width: fit-content;
+    margin: 5px auto; /* Centrage si le parent utilise text-align: center */
+    z-index: 10; /* Assure que le menu est au-dessus du contenu en dessous */
+}
+
+/* 2. Style du bouton "Sommaire" (le déclencheur) */
+.toc-button {
+    background-color: var(--main-blue); /* Bleu principal */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px; /* Léger arrondi pour un look plus doux */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex; 
+    align-items: center;
+    gap: 10px; /* Augmentation de l'espace entre l'icône et le texte */
+    /* Box-shadow plus doux */
+    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.25); 
+}
+
+.toc-button:hover {
+    background-color: #005f96; /* Bleu plus foncé au survol */
+    box-shadow: 0 6px 12px rgba(0, 119, 181, 0.35);
+}
+
+/* Style de l'icône de flèche */
+.toc-button i.fa-caret-down {
+    transition: transform 0.3s ease;
+}
+
+/* Rotation de la flèche au survol pour indiquer que le menu s'ouvre */
+#toc-wrapper:hover .toc-button i.fa-caret-down {
+    transform: rotate(180deg);
+}
+
+/* 3. Conteneur de la liste (le menu déroulant) */
+#table-of-contents-container {
+    /* Positionnement absolu pour le dropdown */
+    position: absolute; 
+    top: 100%; /* Commence juste sous le bouton */
+    
+    /* LOGIQUE DE CENTRAGE DU MENU SOUS LE BOUTON */
+    left: 50%; 
+    transform: translateX(-50%);
+    
+    min-width: 300px;
+    
+    /* Style amélioré */
+    background-color: #fff; 
+    border: 1px solid #ddd;
+    border-top: none; 
+    padding: 5px 0; 
+    border-radius: 0 0 8px 8px; 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    
+    /* Masquer par défaut */
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 4. LOGIQUE CLÉ : Affichage de la liste au survol du conteneur principal */
+#toc-wrapper:hover #table-of-contents-container {
+    display: block; 
+    opacity: 1; 
+}
+
+/* 5. Style de la liste des liens */
+#table-of-contents-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+#table-of-contents-list li {
+    margin-bottom: 0;
+    /* Ligne de séparation subtile entre les liens */
+    border-bottom: 1px dashed #eee; 
+}
+#table-of-contents-list li:last-child {
+    border-bottom: none;
+}
+#table-of-contents-list a {
+    text-decoration: none;
+    color: #333; 
+    font-size: 15px;
+    display: block;
+    padding: 5px 15px; /* Légère augmentation pour plus de confort de clic */
+    transition: all 0.2s;
+    border-left: 3px solid transparent; 
+}
+#table-of-contents-list a:hover {
+    color: var(--main-blue); 
+    background-color: #f0f8ff; 
+    border-left: 3px solid var(--main-blue);
+}
+/* Différenciation des sous-sections (H4 - si vous en ajoutez) */
+#table-of-contents-list li.level-4 a {
+    padding-left: 30px; 
+    font-size: 14px;
+    color: #555;
+}
+    
+/* ************************************************************************** */
+/* NOUVEAU: STYLE PLATEFORMES SOCIALES */
+/* ************************************************************************** */
+
+/* Conteneur des boutons */
+.platform-tags {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+    flex-wrap: wrap; /* Assure un bon comportement sur mobile */
+}
+
+/* Style de chaque tag de plateforme mis à jour */
+.platform-tag {
+    /* Rendu moins "bouton" */
+    padding: 6px 10px; /* Réduction du padding */
+    border: 1px solid #ccc; /* Bordure plus fine et neutre */
+    border-radius: 4px; /* Coins légèrement arrondis, aspect "étiquette" */
+    background-color: #f9f9f9; /* Fond très léger, aspect neutre */
+    font-weight: 500; /* Moins gras que le 600 initial */
+    color: #333; /* Couleur de texte neutre */
+    box-shadow: none; /* Suppression complète de l'ombre */
+    cursor: default; /* Maintient le curseur par défaut */
+
+    /* Configuration Flex pour aligner logo et texte (inchangé) */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; 
+    transition: none; /* Désactivation des transitions */
+}
+
+/* Suppression des effets de survol */
+.platform-tag:hover {
+    background-color: #f9f9f9; /* Reste identique à la couleur de base */
+    box-shadow: none; /* Suppression de l'ombre au survol */
+}
+
+/* Style des images/logos (inchangé) */
+.platform-logo {
+    width: 24px;
+    height: 24px; 
+    object-fit: contain; 
+    border-radius: 4px; 
+}
+/* -------------------------------------------------------------------------- */
+/* STYLE DÉDIÉ AUX PAGES PROJET (Simple Article) - COPIER/COLLER ICI */
+
+/* Conteneur principal de l'article */
+.article-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+/* Titre principal du projet */
+.article-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    color: #0077b5;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+/* Sous-titres (Objectif, Données, Nettoyage, etc.) */
+.article-content h3 {
+    font-size: 22px;
+    color: #333;
+    border-left: 4px solid #0077b5;
+    padding-left: 10px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+/* Sous-titre de niveau 4 (Compétences Clés Démontrées) */
+.article-content h4 {
+    font-size: 18px; /* Taille légèrement inférieure à h3 (22px) pour maintenir la hiérarchie */
+    color: #333;
+    border-left: 0px solid #0077b5; /* Bordure gauche, légèrement plus fine que h3 (4px) */
+    padding-left: 10px;
+    margin-top: 5px; /* Moins d'espace au-dessus que h3 (35px) */
+    margin-bottom: 0px;
+}   
+    
+/* Paragraphes */
+.article-content p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-indent: 0 !important;
+}
+
+/* Solution de repli pour annuler les espaces invisibles en début de paragraphe */
+.article-content p::first-line {
+    /* Tentative de réinitialisation si l'espace est interprété comme un alinéa */
+    text-indent: 0 !important; 
+}
+.article-content hr {
+    /* Marge par défaut du hr, peut être ajustée */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Ajoutez cette règle pour le hr spécifique qui suit un élément flottant */
+.article-content div.clearfix + hr {
+    margin-top: 10px; /* Réduit l'espace par défaut */
+    position: relative; /* Nécessaire pour que z-index fonctionne */
+}
+
+/* ************************************************************************** */
+/* NOUVEAU: STYLES LIGHTBOX/MODAL (Zoom image) */
+/* ************************************************************************** */
+.lightbox-trigger {
+    cursor: zoom-in; /* Indique qu'on peut cliquer pour zoomer */
+}
+    
+/* Classe pour les images flottantes (gauche/droite) */
+.float-img-left {
+    float: left;
+    margin: 0 20px 15px 0; /* Haut, Droite, Bas, Gauche */
+    max-width: 45%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.float-img-right {
+    float: right;
+    margin: 0 0 20px 15px; /* Haut, Droite, Bas, Gauche */
+    max-width: 45%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* L'image elle-même dans la Lightbox (pour s'assurer qu'elle n'est pas trop petite/grande) */
+.float-img-left img, .float-img-right img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: inherit; /* Hérite du border-radius du conteneur */
+}
+
+/* Styles pour le Modal */
+#lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Assurez-vous qu'il soit au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9); /* Fond semi-transparent noir */
+    backdrop-filter: blur(5px); /* Optionnel : effet de flou */
+}
+
+#lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1000px; /* Largeur max pour la fenêtre */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#lightbox-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+
+#lightbox-caption {
+    margin: 15px auto;
+    width: 80%;
+    max-width: 1000px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-size: 17px;
+}
+
+/* Bouton de fermeture (Close Button) */
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+    
+/* Correction pour que l'élément suivant ne soit pas affecté par le 'float' */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Amélioration visuelle pour les Vagues de données */
+.data-vagues {
+    /* Style du conteneur de base */
+    background-color: #f9f9f9;
+    padding: 10px 15px; 
+    border-left: 5px solid #0077b5;
+    border-radius: 0 4px 4px 0;
+    margin: 0; /* Réinitialisation pour utiliser les marges des classes flottantes */
+    
+    /* Configuration Grid pour les colonnes (clé pour la lisibilité) */
+    display: grid;
+    /* Ajustement de la largeur des colonnes : 150px pour le terme + reste pour le nombre */
+    grid-template-columns: 150px 1fr;
+    gap: 2px 10px;
+
+    /* Largeur maximale pour une bonne lisibilité */
+    max-width: 300px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.data-vagues dt,
+.data-vagues dd {
+    /* Ajoute 5px de padding en haut et en bas de chaque ligne */
+    padding-top: 3px; 
+    padding-bottom: 3px;
+    margin: 0; /* Assurez-vous qu'aucune marge n'interfère */
+}
+    
+/* Style dédié pour le flottement à GAUCHE (comme pour les images) */
+.data-vagues.float-img-left {
+    float: left;
+    margin: 0 20px 15px 0; /* Haut, Droite, Bas, Gauche */
+}
+
+/* Style dédié pour le flottement à DROITE (comme pour les images) */
+.data-vagues.float-img-right {
+    float: right;
+    /* Marge : Haut=0, Droite=0 (collé à droite), Bas=15px, Gauche=20px (espace avec le texte) */
+    margin: 0 20px 15px 20px; 
+}
+
+/* Amélioration visuelle pour les Étapes de Nettoyage */
+.cleaning-steps {
+    list-style-type: none; /* Cache la puce par défaut */
+    padding-left: 0;
+    margin: 15px 0;
+    counter-reset: section-step;
+}
+
+/* NOUVEAU STYLE : Structure en 2 colonnes pour la présentation des données (Partie 2) */
+.data-presentation {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.data-presentation-column {
+    width: 48%; /* Près de 50%, laissant 4% de marge entre */
+    float: left; /* Aligner à gauche */
+    box-sizing: border-box; /* Inclusion des marges dans la largeur */
+}
+
+/* Option pour la seconde colonne si vous préférez: */
+.data-presentation-column.right {
+    float: right; /* Aligner à droite */
+}
+    
+.data-presentation ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-left: 3px solid #0077b5;
+    padding-left: 15px;
+}
+.data-presentation li {
+    line-height: 1.6;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.data-presentation li strong {
+    color: #0077b5;
+    font-weight: 600;
+}
+.data-presentation h4 {
+    color: #0077b5;
+    margin-bottom: 20px;
+    font-size: 17px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+}
+
+/* NOUVEAU STYLE : Liste de stratégies/défis stylisée (Partie 4) */
+.strategy-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 15px 0;
+}
+.strategy-list li {
+    padding: 8px 0 8px 30px;
+    position: relative;
+    line-height: 1.5;
+    border-bottom: 1px dotted #ccc;
+}
+.strategy-list li:last-child {
+    border-bottom: none;
+}
+.strategy-list li::before {
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands', 'Font Awesome 5 Solid'; /* Inclure toutes les familles FA5 */
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: #0077b5;
+    font-size: 18px;
+}
+/* Icônes spécifiques pour la stratégie */
+.strategy-list li.objective::before { content: "\f058"; /* check-circle */ color: green; }
+.strategy-list li.follow-up::before { content: "\f02d"; /* book */ }
+.strategy-list li.difficulty::before { content: "\f06a"; /* exclamation-circle */ color: #cc0000; }
+.strategy-list li.problem::before { content: "\f057"; /* times-circle */ color: #cc0000; }
+.strategy-list li.solution::before { content: "\f0e7"; /* lightning-bolt */ color: orange; }
+    
+.cleaning-steps li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    line-height: 1.5;
+    border-bottom: 1px dashed #eee;
+}
+
+.cleaning-steps li:last-child {
+    border-bottom: none;
+}
+
+.cleaning-steps li::before {
+    /* Création du cercle numéroté bleu */
+    content: counter(section-step); /* Utilise un compteur pour la numérotation */
+    counter-increment: section-step;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Style du cercle */
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #0077b5;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+}
+/* Réinitialisation du compteur pour les listes numérotées */
+.article-content {
+    counter-reset: section-step;
+}
+
+/* Style spécifique pour le Tableau 2 pour l'alignement et la lisibilité */
+.tableau-sodemo {
+    width: 100%;
+    border-collapse: collapse; /* Enlève l'espace entre les cellules */
+    margin: 20px 0; /* Marge au-dessus et en dessous du tableau */
+    font-size: 0.9em;
+}
+
+.tableau-sodemo th, .tableau-sodemo td {
+    border: 1px solid #ddd; /* Bordure légère */
+    padding: 8px;
+    text-align: left; /* Alignement par défaut à gauche pour les en-têtes de ligne */
+}
+
+.tableau-sodemo th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center; /* Centrage des en-têtes de colonne */
+}
+
+/* Alignement à droite pour toutes les données numériques (pourcentages) */
+.tableau-sodemo td:nth-child(2),
+.tableau-sodemo td:nth-child(3),
+.tableau-sodemo td:nth-child(4) {
+    text-align: right;
+    font-family: monospace; /* Utilisation d'une police à chasse fixe pour un alignement parfait des nombres */
+}
+
+/* Style pour mettre en évidence les catégories principales */
+.cat-principale {
+    font-weight: bold;
+    background-color: #e9e9e9;
+}
+/* -------------------------------------------------------------------------- */
+/* FOOTER (Desktop) */
+.footer {
+ padding: 30px 0;
+ /* Utilisation d'une marge pour l'espace au-dessus du footer (séparation des projets) */
+ margin-top: 40px; 
+ /* Marge pour l'espace après le footer. 0px pour qu'il soit collé au bas du conteneur parent */
+ margin-bottom: 10px; 
+ background: linear-gradient(135deg, #ffffff 0%, #f7f9fb 100%);
+ box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+ text-align: center;
+ border-radius: 16px;
+ transition: all 0.3s ease;
+}
+    
+.footer-buttons {
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 18px;
+ margin-top: 5px;
+}
+
+.button {
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ padding: 10px 18px;
+ font-size: 15px;
+ font-weight: 500;
+ color: #0077b5;
+ background-color: #f2f6f9;
+ text-decoration: none;
+ border-radius: 8px;
+ border: 1px solid transparent;
+ transition: all 0.25s ease;
+}
+
+.button i {
+ color: #0077b5;
+ transition: color 0.3s ease;
+ font-size: 18px;
+}
+
+.button:hover {
+ background-color: #0077b5;
+ color: #fff;
+ border-color: #0077b5;
+ transform: translateY(-2px);
+ box-shadow: 0 3px 8px rgba(0, 119, 181, 0.25);
+}
+
+.button:hover i {
+ color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE DESIGN (MOBILE ADAPTÉ) - COPIER/COLLER VOTRE BLOC CI-DESSOUS */
+@media (max-width: 768px) {
+    /* 1. Conteneurs principaux */
+    .wrapper-limited {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* 2. Navigation */
+    .nav-links {
+        justify-content: center; /* Centre les liens */
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+        margin-bottom: 0px; /* Espace sous les boutons de navigation (adapté) */
+    }
+
+    .nav-link {
+        font-size: 16px;
+        padding: 10px 18px;
+        border: 1px solid #ccc; /* Affichage comme de vrais boutons */
+        border-radius: 6px;
+        border-bottom: 1px solid #ccc; /* Correction de la bordure manquante */
+    }
+    
+    .nav-link.active {
+        /* Correction pour que le bouton actif s'affiche correctement */
+        border-bottom-color: #fff; 
+    }
+
+    /* 3. Header Personnel */
+    .personal-header {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        padding: 20px 10px; 
+        border-radius: 8px;
+    }
+    
+    .profile-photo { 
+        margin: 0 0 15px 0; /* Centre la photo et ajoute de l'espace en bas */
+        width: 120px;
+        height: 120px;
+    }
+    
+    .info-container h1 {
+        font-size: 26px; /* Taille adaptée */
+    }
+
+    .info-container p {
+        font-size: 15px;
+        max-width: 100%; 
+        margin: 5px auto 0 auto;
+        padding: 0 12px 0px 12px;
+    }
+    
+    /* 4. Contenu Principal (Le reste du contenu est laissé pour s'adapter par défaut, sauf le titre) */
+    .main-content-projects {
+        padding: 25px 15px; /* Réduit le padding du contenu */
+    }
+    
+    .main-content-projects h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    /* Styles spécifiques pour l'article */
+    .article-content {
+        padding: 20px 20px;
+    }
+    .article-content h1 {
+        font-size: 26px;
+    }
+    /* Les images flottantes deviennent pleine largeur sur mobile */
+    .float-img-left, .float-img-right {
+        float: none;
+        max-width: 100%;
+        margin: 15px 0;
+    }
+
+
+    /* Footer (Adaptation à la largeur mobile) */
+    .footer {
+        margin: 10px 15px 10px 15px; /* Marge latérale pour centrage/aération */
+        padding: 30px 15px;
+        border-radius: 8px;
+        text-align: center; 
+    }
+    
+    .footer-buttons {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        width: 100%; 
+    }
+
+    .button {
+        width: 90%;
+        justify-content: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    
+    div table {
+        /* Force la table à prendre 100% de l'espace disponible */
+        width: 100% !important; 
+        max-width: 100% !important;
+        font-size: 0.95em; 
+    }
+    
+    div table th, div table td {
+        /* Réduction du padding pour maximiser l'espace du texte */
+        padding: 8px 5px; 
+    }
+
+    /* La div de centrage doit également être ajustée pour s'assurer qu'elle n'interfère pas */
+    div[style*="display: flex"] {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper-limited">
+    
+    <div class="nav-links">
+        <a href="../index.html" class="nav-link">Mes projets</a>
+        <a href="../about.html" class="nav-link">À propos de moi</a>
+    </div>
+
+    <div class="personal-header">
+        <img src="../photocv.PNG" class="profile-photo" alt="Maëlys François">
+        <div class="info-container">
+            <h1>Maëlys François</h1>
+            <p>Passionnée par <strong>l'analyse de données</strong> avec une expertise pour l'étude des comportements sur les <strong>réseaux sociaux</strong>.</p>
+        </div>
+    </div>
+
+    <div class="main-content-projects">
+        <div class="article-content">
+            <h1>Collecte et analyse de données issues des réseaux sociaux : Stage au sein du projet AMULEX.</h1>
+
+    <div class="center-content"> 
+        <div id="toc-wrapper">
+        <div class="toc-button">
+        <i class="fas fa-list-alt"></i> Sommaire <i class="fas fa-caret-down"></i>
+        </div>
+        <div id="table-of-contents-container">
+            <ul id="table-of-contents-list">
+                <li><a href="#objectif">1. Objectif du stage et du projet</a></li>
+                <li><a href="#donnees">2. Présentation des données</a></li>
+                <li><a href="#nettoyage">3. Nettoyage et préparation des données</a></li>
+                <li><a href="#strategies">4. Stratégies de collecte</a></li>
+                <li><a href="#statistiques">5.1 Statistiques descriptives</a></li>
+                <li><a href="#acm">5.2 Analyse des Correspondances Multiples (ACM)</a></li>
+                <li><a href="#acl">5.3 Analyse en Classes Latentes (ACL)</a></li>
+                <li><a href="#correlation">5.4 Analyse de corrélation</a></li>
+                <li><a href="#conclusion">6. Conclusion</a></li>
+                <li><a href="#competences">7. Compétences développées</a></li>
+
+            </ul>
+        </div>
+        </div>
+    </div>          
+            <!-- 1. Objectif -->
+            <div class="clearfix">
+                <h3 id="objectif">1. Objectif du stage et du projet</h3>
+                <p>Ce projet a été réalisé dans le cadre de mon stage en tant qu’assistante sur le projet <strong>ANR AMULEX</strong> (Analyse Multiplateforme de l’Expression politique en ligne), dont l'objectif principal était de collecter et d'analyser les données 
+                    issues des réseaux sociaux. <br>
+                    L'objectif de ma mission était de <strong>contribuer à l'administration d'un questionnaire en ligne</strong> (via LimeSurvey) auprès d'un échantillon ciblé de commentateurs politiques, pour ensuite l'<strong>analyser statistiquement</strong>.</p>
+            </div>
+            <hr>
+
+            <!-- 2. Présentation des données -->
+            <div class="clearfix">
+                <h3 id="donnees">2. Présentation des données</h3>
+                <p>La base de données sur laquelle j'ai travaillé est constituée des réponses au questionnaire en ligne qui a été passé lors de la première partie de mon stage. L'échantillon a été constitué par contact direct (messagerie privée ou tag) 
+                    auprès d'utilisateurs ayant <strong>commenté des interviews de candidat.e.s à l'élection présidentielle française sur les plateformes suivantes</strong> :</p>
+                    
+            <div class="platform-tags">
+                <span class="platform-tag">
+                    <img src="../mesdocuments/logo_x.png" alt="Logo X" class="platform-logo">X (anciennement Twitter)
+                </span>
+                <span class="platform-tag">
+                    <img src="../mesdocuments/logo_instagram.webp" alt="Logo Instagram" class="platform-logo">Instagram
+                </span>
+                <span class="platform-tag">
+                    <img src="../mesdocuments/logo_youtube.jpg" alt="Logo YouTube" class="platform-logo">YouTube
+                </span>
+                <span class="platform-tag">
+                    <img src="../mesdocuments/logo_twitch.png" alt="Logo Twitch" class="platform-logo">Twitch
+                </span>
+            </div>
+                <p style="margin-top: 20px;">
+                    L'échantillon analysé contient également des données de la plateforme <strong>Twitch.</strong> Ces données ont été récoltées par l'équipe du projet ANR AMULEX, notamment via des serveurs <strong>Discord</strong>,
+                    avant le début de mon stage. Cela justifie la présence de cette catégorie dans les analyses qui suivront.
+                </p>
+                <h4 style="text-align: center; margin-top: 15px; margin-bottom: 10px;">Catégories de variables recueillies</h4>
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <table style="width: 80%; max-width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #ccc;">
+                        <thead>
+                            <tr style="background-color: #eee;">
+                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left; width: 30%;">Catégorie</th>
+                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">Sociodémographiques</td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">Âge, genre, CSP, niveau de diplôme, etc.</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">Orientation politique</td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">Échelle gauche-droite</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">Pratiques numériques</td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">Fréquence d'utilisation et types d'activités (commenter, liker, partager, consulter)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    Une attention particulière a été portée à la <strong>protection des données personnelles</strong> des enquêté.e.s, tel que détaillé dans le <a href="https://hal.science/hal-04693656">Plan de Gestion des Données (PGD)</a> de l'équipe Amulex. Le recueil des <strong>pseudonymes et identifiants de compte</strong> (Youtube, Instagram, X, Twitch) s'est effectué dans le strict respect du <strong>RGPD</strong>. Tous les livrables du projet AMULEX sont <strong>rigoureusement anonymisés</strong> (modification des pseudonymes et suppression des données identifiantes).
+                </p>
+            </div>
+            <hr>
+
+            <!-- 3. Nettoyage -->
+            <div class="clearfix">
+                <h3 id=nettoyage">3. Nettoyage et préparation des données</h3>
+                <a href="../mesdocuments/image_amulex_tableausuivi.PNG" class="float-img-right lightbox-trigger" data-alt="Graphique 1 - Tableau de suivi du stage">
+                    <img src="../mesdocuments/image_amulex_tableausuivi.PNG" alt="Graphique 1 - Tableau de suivi du stage">    
+                </a>
+                <p>La préparation et le nettoyage des données ont été réalisés à l'aide de logiciels d'analyse statistique comme R et Jamovi, ainsi que des outils de gestion comme Excel. J'ai mobilisé plusieurs outils et méthodes clés pour structurer les données 
+                    issues du questionnaire et du processus de collecte :</p>
+                <ol class="cleaning-steps">
+                    <li><strong>Documentation et suivi de la collecte</strong> : J'ai utilisé un document Word partagé avec mes tuteurs et tutrices qui m'a servi à documenter de manière exhaustive les tentatives de contact, garantissant la fiabilité des informations et une maîtrise du suivi de la campagne d'enquête.</li>
+                    <li><strong>Transformation des varibales pour les analyses</strong> : Certaines données issues du questionnaire ont été transformées en variables ordinales (par exemple, "plusieurs fois par jour" est devenu "1", "une fois par jour" est devenu "2"...). Cette transformation était nécessaire pour l'analyse réalisée sur Jamovi.</li>
+                </ol>
+            </div>
+            <hr>
+
+            <!-- 4. Résultats -->
+            <div class="clearfix">
+                <h3 id="strategies">4. Stratégies de collecte</h3>
+                <a href="../mesdocuments/image_amulex_limitejournalière.jpg" class="float-img-left lightbox-trigger" data-alt="Graphique 2 - Limite journalière sur YouTube">
+                    <img src="../mesdocuments/image_amulex_limitejournalière.jpg" alt="Graphique 2 - Limite journalière sur YouTube">
+                </a>
+                <p>
+                    La collecte des données a été menée par vagues accompagnée d'une adaptation constante afin de surmonter les défis méthodologiques et techniques spécifiques à chaque plateforme, tout en s'assurant du <strong>strict respect du Règlement Général sur la Protection des Données (RGPD)</strong>.
+                </p>
+                <div style="clear: both;"></div>
+                <ul class="strategy-list">
+                    <li class="objective"><strong>Objectif</strong> : Contacter le plus de commentateurs.</li>
+                    <li class="follow-up"><strong>Suivi</strong> : Utilisation d'un fichier Excel (seulement accessible par les membres de l'équipe) pour suivre les tentatives de contact.</li>
+                    <li class="difficulty"><strong>Difficultés</strong> : Le principal obstacle a été le filtrage des messages par Instagram ("utilisateur qui restreint les nouveaux messages"), limitant l'efficacité des relances.</li>
+                    <li class="problem"><strong>Problème</strong> : YouTube ne dispose pas d'une messagerie privée pour le contact direct et ne permet le tag que de 100 comptes par jour.</li>
+                    <li class="solution"><strong>Solution</strong> : Création d'une chaîne YouTube dédiée avec une vidéo explicative, et contact des enquêté.e.s par tag sous le post de la vidéo par tranche de 100, suivi des relances sur Instagram. Par la suite ces tags ont été supprimés afin de respecter la confidentialité des enquêté.e.s.</li>
+                </ul>
+            </div>
+            <hr>
+            
+            <!-- 5. Facteurs explicatifs -->
+<div class="clearfix">
+                <h3 id="statistiques">5.1. Statistiques descriptives</h3>
+                <ul class="strategy-list">
+                    <li class="objective">
+                        <strong>Objectif : Cartographier la population enquêtée.</strong>
+                        <p>Les statistiques descriptives constituent la première étape de l'analyse. Elles ont permis de décrire les principales caractéristiques sociodémographiques des informations collectées avant de se lancer dans des analyses plus complexes. 
+                        </p>                        
+                    </li>
+                    <li class="follow-up">
+                        <strong>Méthodologie : Statistiques descriptives sur Jamovi.</strong>
+                        <p>Utilisation du logiciel Jamovi pour générer des statistiques descriptives univariées (moyennes, écarts-types).</p>
+                    </li>
+                    <li class="solution">
+                        <strong>Contribution à l'enquête : Profil type de l'échantillon.</strong>
+                        <p>L'échantillon final sur lequel porte cette analyse est constitué de 177 répondants. Dans le cadre du projet, ces statistiques descriptives ont servi à poser un profil type des commentateurs en les comparant selon les plateformes de 
+                            commentaires : <strong>X et Instagram</strong>, <strong>YouTube</strong> (échantillon aléatoire + gros commentateurs) et finalement <strong>Twitch</strong>.<br> Ainsi, l'objectif est d'analyser la distribution des variables sociodémographiques 
+                            (âge, genre, CSP, niveau de diplôme) pour obtenir une vue d'ensemble de l'échantillon de commentateurs.
+                        </p>
+                        <div class="profile-summary" style="padding: 15px; border-left: 5px solid #0056b3; background-color: #f0f8ff; margin: 15px 0;">
+                            <h4 style="margin-top: 0; color: #0056b3;">Profil sociodémographique de l'échantillon global</h4>
+                            <ul style="list-style-type: disc; margin-left: 20px;">
+                                <li><strong>Genre</strong> : Très largement <strong>masculin</strong>, les hommes représentant environ <strong>72%</strong> de l'échantillon.</li>
+                                <li><strong>Âge</strong> : Un échantillon relativement <strong>jeune</strong>, avec une moyenne d'âge <strong>inférieure à 35 ans</strong> (moyenne d'année de naissance autour de 1989).</li>
+                                <li><strong>Diplôme</strong> : Un niveau d'éducation <strong>élevé</strong>, avec une forte concentration de personnes <strong>très diplômées</strong> (Bac+4 et Bac+5).</li>
+                                <li><strong>Orientation politique</strong> : Tendance politique fortement polarisée <strong>à gauche.</strong> Environ 70% des répondants se positionnent à gauche et à l'extrême-gauche sur l'échelle politique.</li>
+                            </ul>
+                        </div>
+                        <p>
+                            Ce profil met en lumière une population de commentateurs en ligne spécifique et différente de la population française générale. 
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+<div class="clearfix">
+    <h3 id="acm">5.2. Analyse des Correspondances Multiples (ACM)</h3>
+                <ul class="strategy-list">
+                    <li class="objective">
+                        <strong>Objectif : Visualiser la relation entre plusieurs variables et les individus qui y sont associés.</strong>
+                        <p>Elle permet de représenter sur un graphique les liens entre les différentes modalités de réponse, ainsi que la proximité entre les individus qui partagent des profils de réponse similaires. L'ACM a été employée pour définir les <strong>profils 
+                            des enquêté.e.s</strong>. En projetant sur un graphique les liens entre la fréquence d'utilisation de chaque plateforme et les types de comptes suivis, cette analyse permet d'identifier des groupes d'individus (chaque point sur le graphique représente 
+                            un.e enquêté.e) ayant des pratiques numériques similaires. Cette méthode permet de révéler la <strong>diversité des profils d'utilisateurs</strong> et de s'assurer que l'échantillon recueilli représente un large éventail de comportements en ligne.
+                        </p>                        
+                    </li>
+                    <li class="follow-up">
+                        <strong>Méthodologie : ACM sur R.</strong>
+                        <p>Le travail a été effectué à l'aide du package <strong>FactoMineR sous R</strong>. Les données ont été préparées en sélectionnant les variables pertinentes pour l'analyse, ici la fréquence d'utilisation et les types 
+                            de comptes suivis sur la plateforme. Après avoir exécuté le script, l'ACM génère deux graphiques principaux : le <strong>graphique des individus</strong> (qui montre le positionnement de chaque enquêté.e) et le <strong>graphique des 
+                                variables</strong> (qui visualise les liens entre les différentes catégories de réponses).</p>
+                    </li>
+                    <li class="solution">
+                        <strong>Contribution à l'enquête : Ciblage des profils et diversification de l'échantillon qualitatif.</strong>
+                        <p>L'identification de ces groupes a permis de guider la sélection des individus à recontacter pour la phase d'entretiens. En localisant les individus proches des pratiques d'engagement les plus extrêmes ou les plus 
+                            diversifiées (ex: l'individu 126, très actif car proche des variables de fréquence élevée ("Plusieurs fois par jour") et de pratiques ("Partage", "Comment"...), l'ACM assure que l'échantillon couvre un large éventail de comportements en ligne.</p>
+                <a href="../mesdocuments/image_amulex_individus.jpg" class="float-img-left lightbox-trigger" data-alt="Graphique 3 - Représentation des individus - Facebook">
+                    <img src="../mesdocuments/image_amulex_individus.jpg" alt="Graphique 3- Représentation des individus - Facebook">
+                </a>
+
+                <a href="../mesdocuments/image_amulex_variables.jpg" class="float-img-right lightbox-trigger" data-alt="Graphique 4 - Représentation des variables - Facebook">
+                    <img src="../mesdocuments/image_amulex_variables.jpg" alt="Graphique 4 - Représentation des variables - Facebook">              
+                </a>
+</div>
+<hr>
+<div class="clearfix">
+    <h3 id="acl">5.3. Analyse en Classes Latentes (ACL)</h3>
+    <ul class="strategy-list">
+        <li class="objective">
+            <strong>Objectif : Découvrir des groupes d'usagers aux profils similaires (classes latentes).</strong>
+            <p>S’appuyant sur les profils établis par les statistiques descriptives, l’ACL est une méthode statistique utilisée pour découvrir des <strong>groupes cachés</strong> (ou « latents ») d’individus à partir de leurs réponses à un ensemble de variables. Elle permet de segmenter les répondants pour identifier des <strong>profils typiques d’usagers</strong> des réseaux sociaux et de la politique en ligne (très actifs sur plusieurs plateformes, discrets, ou engagés sur une seule plateforme).</p>
+        </li>
+        <li class="follow-up">
+            <strong>Méthodologie : ACL sur Jamovi.</strong>
+            <p>L’analyse a été réalisée sur le logiciel <strong>Jamovi</strong>, en utilisant le module <strong>snowRMM</strong>. Les données issues du questionnaire ont été transformées en variables ordinales. Pour déterminer le nombre optimal de classes, l’analyse s’est basée sur le critère du <strong>BIC</strong> (Bayesian Information Criterion), en retenant le modèle présentant la valeur la plus basse, ce qui garantit la meilleure adéquation statistique (le <strong>modèle à 2 classes</strong> a été retenu).</p>
+        </li>
+        <li class="solution">
+            <strong>Contribution à l'enquête : Segmentation des usagers et corrélation sociodémographique.</strong>
+            <p>L’ACL a permis d'identifier des groupes distincts d’individus basés sur la fréquence d’utilisation de différentes plateformes. Ces différences de genre, de CSP, de statut professionnel et d’orientation politique confirment que les pratiques en ligne sont étroitement liées à des facteurs sociodémographiques, renforçant l’idée que l’idée que l’engagement numérique est structuré par des dynamiques sociales.</p>
+
+            <div style="margin: 15px 0; text-align: center;">
+                <a href="../mesdocuments/image_amulex_ACL.jpg" class="lightbox-trigger" data-alt="Graphique 5 - Représentation de l'ACL">
+                    <img src="../mesdocuments/image_amulex_ACL.jpg" alt="Graphique 5 - Représentation de l'ACL" style="max-width: 80%; height: auto; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                </a>
+            </div>
+
+            <div class="profile-summary" style="
+                /* Modifications pour réduire l'imposition */
+                font-size: 0.95em; /* Réduction de la taille de la police */
+                padding: 10px; /* Réduction du padding (était 15px) */
+                
+                /* Styles de base maintenus */
+                border-left: 5px solid #0056b3; 
+                background-color: #f0f8ff; 
+                margin: 20px 0; 
+            ">
+                <h4 style="margin-top: 0; color: #0056b3; font-size: 1.1em;">Synthèse des 2 classes d'utilisateurs identifiées par l'ACL</h4>
+                <p style="margin-bottom: 8px;">Les chiffres 1 à 4 représentent la fréquence d’utilisation des plateformes (1 = usage le plus fréquent).</p>
+                <ul style="list-style-type: disc; margin-left: 15px;"> <li><strong>Classe 1 : Les « hyper-actifs » (17.7% de l'échantillon)</strong>
+                        <ul style="list-style-type: circle; margin-top: 1px; margin-left: 10px;">
+                            <li><strong>Usage :</strong> Fréquence d’utilisation élevée (modalité 1, « plusieurs fois par jour ») sur <strong>toutes</strong> les plateformes (profil intensif et diversifié).</li>
+                            <li><strong>Genre :</strong> Plus de femmes (48.15%) que d’hommes (37.04%).</li>
+                            <li><strong>Âge :</strong> Moyenne de 36 ans (naissance 1989), avec une <strong>grande dispersion</strong> (Écart-type 19.2).</li>
+                            <li><strong>Profil :</strong> Forte représentation des <strong>étudiants</strong> (29.63%) et des <strong>inactifs</strong> (51.85%).</li>
+                            <li><strong>Politique :</strong> Surreprésentation de l’<strong>extrême gauche</strong> (22.22%) ou de la <strong>gauche</strong> (29.63%).</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 8px;"><strong>Classe 2 : Les « sélectifs/occasionnels » (82.3% de l'échantillon)</strong>
+                        <ul style="list-style-type: circle; margin-top: 1px; margin-left: 10px;"> 
+                            <li><strong>Usage :</strong> Fréquence bien plus faible, surtout sur Snapchat et Tiktok.</li>
+                            <li><strong>Genre :</strong> Composée <strong>majoritairement d’hommes</strong>.</li>
+                            <li><strong>Âge :</strong> Profil plus mature, moyenne de 38 ans (naissance 1987), avec une <strong>dispersion plus faible</strong> (Écart-type 14.6).</li>
+                            <li><strong>Profil :</strong> Dominé par les <strong>cadres</strong> (36%) et les <strong>salariés stables</strong> (41.61%).</li>
+                            <li><strong>Politique :</strong> La <strong>gauche</strong> est surreprésentée (41.45%).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
+<hr>
+            
+<div class="clearfix">
+    <h3 id="correlation">5.4. Analyse de corrélation</h3>
+    <ul class="strategy-list">
+        <li class="objective">
+            <strong>Objectif : Quantifier la relation entre les usages de différentes plateformes.</strong>
+            <p>L’analyse de corrélation statistique a servi à mesurer le lien entre deux variables et à déterminer si l’utilisation d’une plateforme (comme Snapchat) est associée à l’utilisation d’une autre (comme Tiktok).</p>
+        </li>
+        <li class="follow-up">
+            <strong>Méthodologie : Corrélation statistique sur Jamovi.</strong>
+            <p>Le coefficient de <strong>Tau de Kendall B</strong>, une mesure de corrélation non paramétrique, a été utilisé pour évaluer la force et la direction de ces relations. Un Tau &gt; 0 indique une association positive, et un Tau &lt; 0 une association négative.</p>
+        </li>
+        <li class="solution">
+            <strong>Contribution à l'enquête : Mise en évidence d'écosystèmes d'usages spécifiques.</strong>
+            <p>Les résultats ont permis de structurer les pratiques numériques observées en ligne, démontrant qu'elles ne sont pas isolées mais s’organisent en <strong>écosystèmes d’usages</strong> propres à des typologies d’individus. Le tableau ci-dessous présente le Tau de Kendall B avec la p-value associée entre parenthèses.</p>
+        </li>
+    </ul>
+</div>
+            
+<div style="margin-top: 5px; margin-bottom: 20px; clear: both; overflow-x: auto;">
+    <table style="width: 100%; min-width: 700px; border-collapse: collapse; text-align: center; border: 1px solid #ccc; font-size: 0.95em;">
+        <thead>
+            <tr style="background-color: #eee;">
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Plateforme</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Indicateur</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Facebook</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Youtube</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Instagram</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">X</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Twitch</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Snapchat</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Tiktok</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Linkedin</th>
+                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Messagerie</th>
+            </tr>
+        </thead>
+        <tbody> 
+<tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Facebook</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Youtube</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.080</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.199</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Instagram</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.101</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.038</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.100</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.542</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">X</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.137</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.043</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.079</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.025</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.489</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.197</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Twitch</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99; font-weight: bold;">-0.147</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99; font-weight: bold;">0.233</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99; font-weight: bold;">-0.123</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.003</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.015</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.040</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.966</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Snapchat</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.010</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.032</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99;">0.262</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.027</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">-0.170</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.875</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.627</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.673</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.007</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Tiktok</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.008</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.091</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99;">0.234</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.185</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.123</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ff9999; font-weight: bold;">0.329</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.904</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.158</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.004</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.049</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Linkedin</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.108</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.024</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.078</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.132</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.012</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.123</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.081</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.085</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.702</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.207</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.033</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.842</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.057</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.213</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
+    </tr>
+
+    <tr>
+        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Messagerie</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99;">0.208</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.021</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.144</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.063</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.004</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.068</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.067</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.171</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.737</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.019</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.303</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.942</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.289</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.295</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.006</td>
+        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
+    </tr>
+        </tbody>
+        </table>
+        </div>
+            
+<div style="font-size: 0.85em; margin-bottom: 20px; text-align: center;">
+    <p style="margin: 4px 0; font-weight: bold;">Légende de la corrélation (Tau de Kendall B) :</p>
+    <span style="background-color: #ff9999; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Rouge : |&tau;<sub>b</sub>| &gt; 0.3 (Forte)</span>
+    <span style="background-color: #ffcc99; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Orange : 0.2 &le; |&tau;<sub>b</sub>| &le; 0.3 (Modérée)</span>
+    <span style="background-color: #ffff99; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Jaune : |&tau;<sub>b</sub>| &lt; 0.2 (Faible)</span>
+</div>
+
+<div style="font-size: 0.85em; margin-bottom: 20px; text-align: center;">
+    <p style="margin: 4px 0; font-weight: bold;">Légende de la signification (p-value) :</p>
+    <span style="background-color: #ccffcc; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Vert : p-value &lt; 0.05 (Significative)</span>
+</div>
+        <hr>
+
+            <div class="profile-summary" style="
+                /* Modifications pour réduire l'imposition */
+                font-size: 0.95em; /* Réduction de la taille de la police */
+                padding: 10px; /* Réduction du padding (était 15px) */
+                
+                /* Styles de base maintenus */
+                border-left: 5px solid #0056b3; 
+                background-color: #f0f8ff; 
+                margin: 20px 0; 
+            ">
+                <h4 style="margin-top: 0; font-size: 1.1em;">Synthèse des écosystèmes d'usage (Corrélations significatives, p &lt; 0.05)</h4>
+    <p>L'analyse des corrélations de Kendall met en évidence des regroupements d'usages entre les différentes plateformes, révélant l'existence de "familles" d'utilisateurs.</p>
+    
+    <h5 style="margin-top: 20px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">Corrélation positives, portant alors des usages similaires</h5>
+    
+    <p style="margin-bottom: 15px;">
+        <strong>Snapchat et TikTok</strong> : La corrélation la plus forte confirme un chevauchement massif d'un public jeune.
+    </p>
+    <p style="margin-bottom: 15px;">
+        <strong>YouTube et Twitch</strong> : Cette association révèle des utilisateurs assidus de contenus vidéo et de direct.
+    </p>
+
+    <h5 style="margin-top: 20px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">Corrélation négatives révélant des audiences distinctes</h5>
+    
+    <p style="margin-bottom: 15px;">
+        <strong>Twitch et Facebook</strong> : Suggère que les utilisateurs de Facebook (souvent plus âgés) sont moins présents sur la plateforme de vidéo en direct (public plus jeune).
+    </p>
+    <p>
+        <strong>Twitch et Snapchat/Instagram</strong> : Montre un clivage clair entre les publics adeptes du contenu éphémère et visuel et ceux de la plateforme spécialisée dans le jeu vidéo et le direct.
+    </p>
+    
+</div>
+<hr>
+
+
+<div class="clearfix">
+    <h3 id="conclusion">6. Conclusion</h3>
+    <ul class="strategy-list">
+        <li class="objective">
+            <strong>Apports scientifiques et interprétation</strong>
+            <p>Les analyses menées dans le cadre du projet AMULEX corroborent et enrichissent les travaux sociologiques majeurs sur la diversification des usages numériques (Pacouret et al., 2024 ; Neihouser et al., 2022).</p>
+            <p>L'<strong>Analyse en Classes Latentes (ACL)</strong> a permis d'établir une typologie claire des utilisateurs, révélant notamment l'existence d'un <strong>petit groupe multiplateforme très actif, jeune, diplômé et politiquement engagé à gauche</strong>. L'<strong>ACM</strong> et les <strong>corrélations</strong> ont quant à elles démontré l'existence d'« <strong>écosystèmes d'usages</strong> » distincts : l'association forte entre <strong>Snapchat et TikTok</strong> (public jeune) d'un côté, et celle entre <strong>YouTube et Twitch</strong> (public vidéo assidu) de l'autre. Ces résultats confirment que les pratiques numériques sont le reflet direct de variables sociodémographiques.</p>
+        </li>
+        <li class="follow-up">
+            <strong>Nuances et limites du projet</strong>
+            <p>L'étude a fait face à plusieurs limites : un <strong>biais de recrutement</strong> ayant surreprésenté les profils très actifs et des <strong>contraintes techniques</strong> liés aux plateformes (Instagram, YouTube) qui ont orienté les choix méthodologiques.</p>
+        </li>
+        <li class="solution">
+            <strong>Bilan du stage</strong>
+            <p>Ce stage a été une transition concrète de la théorie à la pratique. Malgré les obstacles, mon travail de conception et de traitement a permis de créer une base de données solide pour le projet. Cette expérience a confirmé mon intérêt pour l'analyse de données sociologiques et m'a appris l'importance de la flexibilité face aux imprévus.</p>
+</div>
+<hr>
+
+<div class="clearfix">
+    <h3 id="competences">7. Compétences développées</h3>
+    <ol class="cleaning-steps">
+        <li><strong>Compétences analytiques :</strong> Expertise dans l'application de l'ACL, l'ACM et des corrélations pour structurer et interpréter des données sociologiques complexes.</li>
+        <li><strong>Maîtrise de R :</strong> Conception d'un script R fonctionnel pour l'ACM.</li>
+        <li><strong>Maîtrise de Jamovi :</strong> Utilisation de Jamovi pour les statistiques descriptives, l'ACL et l'analyse de corrélation.</li>
+        <li><strong>Gestion de données complexes et structuration de BDD :</strong> Traitement et nettoyage de données qualitatives et quantitatives pour garantir la solidité et la pérennité de la base de données du projet AMULEX.</li>
+        <li><strong>Conception et adaptation de protocoles de collecte :</strong> Élaboration d'une stratégie de recrutement spécifique à YouTube et ajustement des méthodes face aux contraintes techniques des plateformes.</li>
+        <li><strong>Interprétation sociologique :</strong> Capacité à mettre en perspective les résultats statistiques avec les travaux théoriques pour enrichir les conclusions de l'étude.</li>
+    </ol>
+</div>
+</div>
+</div>            
+    <footer class="footer">
+        <div class="footer-buttons">
+            <a href="https://www.linkedin.com/in/ma%C3%ABlys-fran%C3%A7ois" class="button" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
+            <a href="../mesdocuments/cv_maëlys_françois.pdf" class="button" target="_blank"><i class="fas fa-file-pdf"></i>Mon CV</a>
+            <a href="mailto:maelys.francois31@gmail.com" class="button"><i class="fas fa-envelope"></i>Mon Email</a>
+        </div>
+    </footer>
+        </div>
+<div id="lightbox-modal">
+    <span class="lightbox-close">&times;</span>
+    <div id="lightbox-content">
+        <img id="lightbox-image" src="">
+        <div id="lightbox-caption"></div>
+    </div>
+</div>
+<script>
+    // **************************************************************************
+    // 1. Logique LIGHTBOX/MODAL (pour le zoom des images)
+    // **************************************************************************
+    var modal = document.getElementById("lightbox-modal");
+    var modalImg = document.getElementById("lightbox-image");
+    var captionText = document.getElementById("lightbox-caption");
+    var closeBtn = document.getElementsByClassName("lightbox-close")[0];
+    var triggers = document.querySelectorAll(".lightbox-trigger");
+
+    // 2. Ajout d'événement à chaque lien d'image
+    triggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(event) {
+            // Empêche le navigateur d'aller à l'URL de l'image
+            event.preventDefault(); 
+            
+            // Récupère l'URL de l'image (dans le 'href' du lien <a>)
+            var imgSrc = this.getAttribute('href'); 
+            // Récupère la légende (dans le 'data-alt' du lien <a>)
+            var altText = this.getAttribute('data-alt');
+
+            // Affiche le modal et insère le contenu de l'image
+            modal.style.display = "block";
+            modalImg.src = imgSrc;
+            captionText.innerHTML = altText || this.querySelector('img').alt;
+        });
+    });
+
+    // 3. Logique de FERMETURE 1 : Fermer en cliquant sur la croix
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    // 4. Logique de FERMETURE 2 : Fermer en cliquant sur le fond gris (l'extérieur de l'image)
+    if (modal) {
+        modal.onclick = function(event) {
+            // S'assure que le clic est bien sur le fond et non sur l'image elle-même
+            if (event.target === modal) { 
+                modal.style.display = "none";
+            }
+        }
+    }
+    
+    // 5. Logique de FERMETURE 3 : Fermer en appuyant sur la touche ÉCHAP
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            modal.style.display = "none";
+        }
+    });
+
+    // **************************************************************************
+    // 6. Logique SOMMAIRE/TOC pour mobile (Activation/Désactivation au clic)
+    // **************************************************************************
+var tocWrapper = document.getElementById('toc-wrapper');
+    var tocButton = document.querySelector('.toc-button');
+    var body = document.body; // Référence au body
+
+    if (tocWrapper && tocButton) {
+        
+        // Fonction pour ouvrir/fermer le menu
+        function toggleToc() {
+            // Alterne la classe 'toc-open' sur le conteneur principal.
+            tocWrapper.classList.toggle('toc-open');
+            // Alterne la classe 'toc-active' sur le body pour bloquer le défilement et gérer l'overlay si besoin.
+            body.classList.toggle('toc-active');
+        }
+
+        // 1. Ajoute un écouteur d'événement au clic du bouton "Sommaire"
+        tocButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            toggleToc();
+        });
+
+        // 2. Ferme le sommaire si l'utilisateur clique sur un lien à l'intérieur
+        var tocLinks = document.querySelectorAll('#table-of-contents-list a');
+        tocLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                // Ferme le menu après avoir cliqué sur le lien (avec un léger délai pour la navigation)
+                if (tocWrapper.classList.contains('toc-open')) {
+                    setTimeout(function() {
+                        toggleToc();
+                    }, 50); 
+                }
+            });
+        });
+        
+        // 3. Ferme le menu si l'utilisateur clique à l'extérieur (dans la zone de contenu)
+        document.addEventListener('click', function(event) {
+            // Si le clic n'est PAS à l'intérieur du conteneur du sommaire ET PAS sur le bouton lui-même
+            if (
+                tocWrapper.classList.contains('toc-open') &&
+                !tocWrapper.contains(event.target) &&
+                !tocButton.contains(event.target)
+            ) {
+                // Fermer le menu
+                toggleToc();
+            }
+        });
+    }
+</script>
+</body>
+</html>
