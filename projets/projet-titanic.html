@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Projet - Étude des facteurs de survie du naufrage du Titanic avec SQL et Tableau.</title>
+    <title>Projet - Étude des facteurs de survie du naufrage du Titanic avec SQL et Power BI.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
@@ -722,7 +722,15 @@ body {
         font-size: 16px;
         padding: 10px 18px;
         border: 1px solid #ccc; /* Affichage comme de vrais boutons */
-        border-radius: 6px;
+        border-radius: 6px;/* Sous-titre de niveau 4 (Compétences Clés Démontrées) */
+.article-content h4 {
+    font-size: 18px; /* Taille légèrement inférieure à h3 (22px) pour maintenir la hiérarchie */
+    color: #333;
+    border-left: 2px solid #0077b5; /* Bordure gauche, légèrement plus fine que h3 (4px) */
+    padding-left: 10px;
+    margin-top: 5px; /* Moins d'espace au-dessus que h3 (35px) */
+    margin-bottom: 0px;
+}   
         border-bottom: 1px solid #ccc; /* Correction de la bordure manquante */
     }
     
@@ -844,7 +852,7 @@ body {
 
     <div class="main-content-projects">
         <div class="article-content">
-            <h1>Collecte et analyse de données issues des réseaux sociaux : Stage au sein du projet AMULEX.</h1>
+            <h1>Étude des facteurs de survie du Titanic avec SQL et Power BI</h1>
 
     <div class="center-content"> 
         <div id="toc-wrapper">
@@ -853,16 +861,14 @@ body {
         </div>
         <div id="table-of-contents-container">
             <ul id="table-of-contents-list">
-                <li><a href="#objectif">1. Objectif du stage et du projet</a></li>
+                <li><a href="#objectif">1. Objectif du projet</a></li>
                 <li><a href="#donnees">2. Présentation des données</a></li>
                 <li><a href="#nettoyage">3. Nettoyage et préparation des données</a></li>
-                <li><a href="#strategies">4. Stratégies de collecte</a></li>
-                <li><a href="#statistiques">5.1 Statistiques descriptives</a></li>
-                <li><a href="#acm">5.2 Analyse des Correspondances Multiples (ACM)</a></li>
-                <li><a href="#acl">5.3 Analyse en Classes Latentes (ACL)</a></li>
-                <li><a href="#correlation">5.4 Analyse de corrélation</a></li>
-                <li><a href="#conclusion">6. Conclusion</a></li>
-                <li><a href="#competences">7. Compétences développées</a></li>
+                <li><a href="#resultats">4.1 "Les femmes et les enfants d'abord !"</a></li>
+                <li><a href="#socioeconomique">4.2 L'influence du statut socio-économique</a></li>
+                <li><a href="#statut_voyage">4.3 L'influence du statut de voyage</a></li>
+                <li><a href="#conclusion">5. Conclusion</a></li>
+                <li><a href="#competences">6. Compétences développées</a></li>
 
             </ul>
         </div>
@@ -870,572 +876,205 @@ body {
     </div>          
             <!-- 1. Objectif -->
             <div class="clearfix">
-                <h3 id="objectif">1. Objectif du stage et du projet</h3>
-                <p>Ce projet a été réalisé dans le cadre de mon stage en tant qu’assistante sur le projet <strong>ANR AMULEX</strong> (Analyse Multiplateforme de l’Expression politique en ligne), dont l'objectif principal était de collecter et d'analyser les données 
-                    issues des réseaux sociaux. <br>
-                    L'objectif de ma mission était de <strong>contribuer à l'administration d'un questionnaire en ligne</strong> (via LimeSurvey) auprès d'un échantillon ciblé de commentateurs politiques, pour ensuite l'<strong>analyser statistiquement</strong>.</p>
-            </div>
-            <hr>
-
-            <!-- 2. Présentation des données -->
-            <div class="clearfix">
-                <h3 id="donnees">2. Présentation des données</h3>
-                <p>La base de données sur laquelle j'ai travaillé est constituée des réponses au questionnaire en ligne qui a été passé lors de la première partie de mon stage. L'échantillon a été constitué par contact direct (messagerie privée ou tag) 
-                    auprès d'utilisateurs ayant <strong>commenté des interviews de candidat.e.s à l'élection présidentielle française sur les plateformes suivantes</strong> :</p>
-                    
-            <div class="platform-tags">
-                <span class="platform-tag">
-                    <img src="../mesdocuments/logo_x.png" alt="Logo X" class="platform-logo">X (anciennement Twitter)
-                </span>
-                <span class="platform-tag">
-                    <img src="../mesdocuments/logo_instagram.webp" alt="Logo Instagram" class="platform-logo">Instagram
-                </span>
-                <span class="platform-tag">
-                    <img src="../mesdocuments/logo_youtube.jpg" alt="Logo YouTube" class="platform-logo">YouTube
-                </span>
-                <span class="platform-tag">
-                    <img src="../mesdocuments/logo_twitch.png" alt="Logo Twitch" class="platform-logo">Twitch
-                </span>
-            </div>
-                <p style="margin-top: 20px;">
-                    L'échantillon analysé contient également des données de la plateforme <strong>Twitch.</strong> Ces données ont été récoltées par l'équipe du projet ANR AMULEX, notamment via des serveurs <strong>Discord</strong>,
-                    avant le début de mon stage. Cela justifie la présence de cette catégorie dans les analyses qui suivront.
-                </p>
-                <h4 style="text-align: center; margin-top: 15px; margin-bottom: 10px;">Catégories de variables recueillies</h4>
-                <div style="display: flex; justify-content: center; width: 100%;">
-                    <table style="width: 80%; max-width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #ccc;">
-                        <thead>
-                            <tr style="background-color: #eee;">
-                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left; width: 30%;">Catégorie</th>
-                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">Détails</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">Sociodémographiques</td>
-                                <td style="border: 1px solid #ccc; padding: 10px;">Âge, genre, CSP, niveau de diplôme, etc.</td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">Orientation politique</td>
-                                <td style="border: 1px solid #ccc; padding: 10px;">Échelle gauche-droite</td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">Pratiques numériques</td>
-                                <td style="border: 1px solid #ccc; padding: 10px;">Fréquence d'utilisation et types d'activités (commenter, liker, partager, consulter)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p>
-                    Une attention particulière a été portée à la <strong>protection des données personnelles</strong> des enquêté.e.s, tel que détaillé dans le <a href="https://hal.science/hal-04693656">Plan de Gestion des Données (PGD)</a> de l'équipe Amulex. Le recueil des <strong>pseudonymes et identifiants de compte</strong> (Youtube, Instagram, X, Twitch) s'est effectué dans le strict respect du <strong>RGPD</strong>. Tous les livrables du projet AMULEX sont <strong>rigoureusement anonymisés</strong> (modification des pseudonymes et suppression des données identifiantes).
+                <h3 id="objectif">1. Objectif du projet</h3>
+                <a href="../mesdocuments/Console_SQL_données.png" class="float-img-left lightbox-trigger" data-alt="Graphique 1 - Script SQL">
+                    <img src="../mesdocuments/Console_SQL_données.png" alt="Graphique 1 - Script SQL">
+                </a>
+                <p>Afin de compléter mes compétences sur le combo <strong>SQL et Power BI</strong>, je me suis lancée le défi de traiter l'intgégralité du dataset Titanic en <strong>5 jours</strong>.<br> Ce projet, mené comme un <strong>challenge intensif en autonomie</strong>, m'a permis de structurer une démarche analytique rigoureuse : nettoyage des données, création d'indicateurs complexes et dataviz. 
+                  L'étude se concentre sur les facteurs ayant influencé la survie des passagers du Titanic afin d'identifier précisément <strong>les profils les plus à risque</strong>.
                 </p>
             </div>
-            <hr>
 
-            <!-- 3. Nettoyage -->
-            <div class="clearfix">
-                <h3 id=nettoyage">3. Nettoyage et préparation des données</h3>
-                <a href="../mesdocuments/image_amulex_tableausuivi.PNG" class="float-img-right lightbox-trigger" data-alt="Graphique 1 - Tableau de suivi du stage">
-                    <img src="../mesdocuments/image_amulex_tableausuivi.PNG" alt="Graphique 1 - Tableau de suivi du stage">    
-                </a>
-                <p>La préparation et le nettoyage des données ont été réalisés à l'aide de logiciels d'analyse statistique comme R et Jamovi, ainsi que des outils de gestion comme Excel. J'ai mobilisé plusieurs outils et méthodes clés pour structurer les données 
-                    issues du questionnaire et du processus de collecte :</p>
-                <ol class="cleaning-steps">
-                    <li><strong>Documentation et suivi de la collecte</strong> : J'ai utilisé un document Word partagé avec mes tuteurs et tutrices qui m'a servi à documenter de manière exhaustive les tentatives de contact, garantissant la fiabilité des informations et une maîtrise du suivi de la campagne d'enquête.</li>
-                    <li><strong>Transformation des varibales pour les analyses</strong> : Certaines données issues du questionnaire ont été transformées en variables ordinales (par exemple, "plusieurs fois par jour" est devenu "1", "une fois par jour" est devenu "2"...). Cette transformation était nécessaire pour l'analyse réalisée sur Jamovi.</li>
-                </ol>
-            </div>
-            <hr>
-
-            <!-- 4. Résultats -->
-            <div class="clearfix">
-                <h3 id="strategies">4. Stratégies de collecte</h3>
-                <a href="../mesdocuments/image_amulex_limitejournalière.jpg" class="float-img-left lightbox-trigger" data-alt="Graphique 2 - Limite journalière sur YouTube">
-                    <img src="../mesdocuments/image_amulex_limitejournalière.jpg" alt="Graphique 2 - Limite journalière sur YouTube">
-                </a>
-                <p>
-                    La collecte des données a été menée par vagues accompagnée d'une adaptation constante afin de surmonter les défis méthodologiques et techniques spécifiques à chaque plateforme, tout en s'assurant du <strong>strict respect du Règlement Général sur la Protection des Données (RGPD)</strong>.
-                </p>
-                <div style="clear: both;"></div>
-                <ul class="strategy-list">
-                    <li class="objective"><strong>Objectif</strong> : Contacter le plus de commentateurs.</li>
-                    <li class="follow-up"><strong>Suivi</strong> : Utilisation d'un fichier Excel (seulement accessible par les membres de l'équipe) pour suivre les tentatives de contact.</li>
-                    <li class="difficulty"><strong>Difficultés</strong> : Le principal obstacle a été le filtrage des messages par Instagram ("utilisateur qui restreint les nouveaux messages"), limitant l'efficacité des relances.</li>
-                    <li class="problem"><strong>Problème</strong> : YouTube ne dispose pas d'une messagerie privée pour le contact direct et ne permet le tag que de 100 comptes par jour.</li>
-                    <li class="solution"><strong>Solution</strong> : Création d'une chaîne YouTube dédiée avec une vidéo explicative, et contact des enquêté.e.s par tag sous le post de la vidéo par tranche de 100, suivi des relances sur Instagram. Par la suite ces tags ont été supprimés afin de respecter la confidentialité des enquêté.e.s.</li>
-                </ul>
-            </div>
-            <hr>
-            
-            <!-- 5. Facteurs explicatifs -->
-<div class="clearfix">
-                <h3 id="statistiques">5.1. Statistiques descriptives</h3>
-                <ul class="strategy-list">
-                    <li class="objective">
-                        <strong>Objectif : Cartographier la population enquêtée.</strong>
-                        <p>Les statistiques descriptives constituent la première étape de l'analyse. Elles ont permis de décrire les principales caractéristiques sociodémographiques des informations collectées avant de se lancer dans des analyses plus complexes. 
-                        </p>                        
-                    </li>
-                    <li class="follow-up">
-                        <strong>Méthodologie : Statistiques descriptives sur Jamovi.</strong>
-                        <p>Utilisation du logiciel Jamovi pour générer des statistiques descriptives univariées (moyennes, écarts-types).</p>
-                    </li>
-                    <li class="solution">
-                        <strong>Contribution à l'enquête : Profil type de l'échantillon.</strong>
-                        <p>L'échantillon final sur lequel porte cette analyse est constitué de 177 répondants. Dans le cadre du projet, ces statistiques descriptives ont servi à poser un profil type des commentateurs en les comparant selon les plateformes de 
-                            commentaires : <strong>X et Instagram</strong>, <strong>YouTube</strong> (échantillon aléatoire + gros commentateurs) et finalement <strong>Twitch</strong>.<br> Ainsi, l'objectif est d'analyser la distribution des variables sociodémographiques 
-                            (âge, genre, CSP, niveau de diplôme) pour obtenir une vue d'ensemble de l'échantillon de commentateurs.
-                        </p>
-                        <div class="profile-summary" style="padding: 15px; border-left: 5px solid #0056b3; background-color: #f0f8ff; margin: 15px 0;">
-                            <h4 style="margin-top: 0; color: #0056b3;">Profil sociodémographique de l'échantillon global</h4>
-                            <ul style="list-style-type: disc; margin-left: 20px;">
-                                <li><strong>Genre</strong> : Très largement <strong>masculin</strong>, les hommes représentant environ <strong>72%</strong> de l'échantillon.</li>
-                                <li><strong>Âge</strong> : Un échantillon relativement <strong>jeune</strong>, avec une moyenne d'âge <strong>inférieure à 35 ans</strong> (moyenne d'année de naissance autour de 1989).</li>
-                                <li><strong>Diplôme</strong> : Un niveau d'éducation <strong>élevé</strong>, avec une forte concentration de personnes <strong>très diplômées</strong> (Bac+4 et Bac+5).</li>
-                                <li><strong>Orientation politique</strong> : Tendance politique fortement polarisée <strong>à gauche.</strong> Environ 70% des répondants se positionnent à gauche et à l'extrême-gauche sur l'échelle politique.</li>
-                            </ul>
-                        </div>
-                        <p>
-                            Ce profil met en lumière une population de commentateurs en ligne spécifique et différente de la population française générale. 
-                        </p>
-                    </li>
-                </ul>
-            </div>
-            <hr>
-
-<div class="clearfix">
-    <h3 id="acm">5.2. Analyse des Correspondances Multiples (ACM)</h3>
-                <ul class="strategy-list">
-                    <li class="objective">
-                        <strong>Objectif : Visualiser la relation entre plusieurs variables et les individus qui y sont associés.</strong>
-                        <p>Elle permet de représenter sur un graphique les liens entre les différentes modalités de réponse, ainsi que la proximité entre les individus qui partagent des profils de réponse similaires. L'ACM a été employée pour définir les <strong>profils 
-                            des enquêté.e.s</strong>. En projetant sur un graphique les liens entre la fréquence d'utilisation de chaque plateforme et les types de comptes suivis, cette analyse permet d'identifier des groupes d'individus (chaque point sur le graphique représente 
-                            un.e enquêté.e) ayant des pratiques numériques similaires. Cette méthode permet de révéler la <strong>diversité des profils d'utilisateurs</strong> et de s'assurer que l'échantillon recueilli représente un large éventail de comportements en ligne.
-                        </p>                        
-                    </li>
-                    <li class="follow-up">
-                        <strong>Méthodologie : ACM sur R.</strong>
-                        <p>Le travail a été effectué à l'aide du package <strong>FactoMineR sous R</strong>. Les données ont été préparées en sélectionnant les variables pertinentes pour l'analyse, ici la fréquence d'utilisation et les types 
-                            de comptes suivis sur la plateforme. Après avoir exécuté le script, l'ACM génère deux graphiques principaux : le <strong>graphique des individus</strong> (qui montre le positionnement de chaque enquêté.e) et le <strong>graphique des 
-                                variables</strong> (qui visualise les liens entre les différentes catégories de réponses).</p>
-                    </li>
-                    <li class="solution">
-                        <strong>Contribution à l'enquête : Ciblage des profils et diversification de l'échantillon qualitatif.</strong>
-                        <p>L'identification de ces groupes a permis de guider la sélection des individus à recontacter pour la phase d'entretiens. En localisant les individus proches des pratiques d'engagement les plus extrêmes ou les plus 
-                            diversifiées (ex: l'individu 126, très actif car proche des variables de fréquence élevée ("Plusieurs fois par jour") et de pratiques ("Partage", "Comment"...), l'ACM assure que l'échantillon couvre un large éventail de comportements en ligne.</p>
-                <a href="../mesdocuments/image_amulex_individus.jpg" class="float-img-left lightbox-trigger" data-alt="Graphique 3 - Représentation des individus - Facebook">
-                    <img src="../mesdocuments/image_amulex_individus.jpg" alt="Graphique 3- Représentation des individus - Facebook">
-                </a>
-
-                <a href="../mesdocuments/image_amulex_variables.jpg" class="float-img-right lightbox-trigger" data-alt="Graphique 4 - Représentation des variables - Facebook">
-                    <img src="../mesdocuments/image_amulex_variables.jpg" alt="Graphique 4 - Représentation des variables - Facebook">              
-                </a>
-</div>
-<hr>
-<div class="clearfix">
-    <h3 id="acl">5.3. Analyse en Classes Latentes (ACL)</h3>
-    <ul class="strategy-list">
-        <li class="objective">
-            <strong>Objectif : Découvrir des groupes d'usagers aux profils similaires (classes latentes).</strong>
-            <p>S’appuyant sur les profils établis par les statistiques descriptives, l’ACL est une méthode statistique utilisée pour découvrir des <strong>groupes cachés</strong> (ou « latents ») d’individus à partir de leurs réponses à un ensemble de variables. Elle permet de segmenter les répondants pour identifier des <strong>profils typiques d’usagers</strong> des réseaux sociaux et de la politique en ligne (très actifs sur plusieurs plateformes, discrets, ou engagés sur une seule plateforme).</p>
-        </li>
-        <li class="follow-up">
-            <strong>Méthodologie : ACL sur Jamovi.</strong>
-            <p>L’analyse a été réalisée sur le logiciel <strong>Jamovi</strong>, en utilisant le module <strong>snowRMM</strong>. Les données issues du questionnaire ont été transformées en variables ordinales. Pour déterminer le nombre optimal de classes, l’analyse s’est basée sur le critère du <strong>BIC</strong> (Bayesian Information Criterion), en retenant le modèle présentant la valeur la plus basse, ce qui garantit la meilleure adéquation statistique (le <strong>modèle à 2 classes</strong> a été retenu).</p>
-        </li>
-        <li class="solution">
-            <strong>Contribution à l'enquête : Segmentation des usagers et corrélation sociodémographique.</strong>
-            <p>L’ACL a permis d'identifier des groupes distincts d’individus basés sur la fréquence d’utilisation de différentes plateformes. Ces différences de genre, de CSP, de statut professionnel et d’orientation politique confirment que les pratiques en ligne sont étroitement liées à des facteurs sociodémographiques, renforçant l’idée que l’idée que l’engagement numérique est structuré par des dynamiques sociales.</p>
-
-            <div style="margin: 15px 0; text-align: center;">
-                <a href="../mesdocuments/image_amulex_ACL.jpg" class="lightbox-trigger" data-alt="Graphique 5 - Représentation de l'ACL">
-                    <img src="../mesdocuments/image_amulex_ACL.jpg" alt="Graphique 5 - Représentation de l'ACL" style="max-width: 80%; height: auto; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                </a>
-            </div>
-
-            <div class="profile-summary" style="
-                /* Modifications pour réduire l'imposition */
-                font-size: 0.95em; /* Réduction de la taille de la police */
-                padding: 10px; /* Réduction du padding (était 15px) */
-                
-                /* Styles de base maintenus */
-                border-left: 5px solid #0056b3; 
-                background-color: #f0f8ff; 
-                margin: 20px 0; 
-            ">
-                <h4 style="margin-top: 0; color: #0056b3; font-size: 1.1em;">Synthèse des 2 classes d'utilisateurs identifiées par l'ACL</h4>
-                <p style="margin-bottom: 8px;">Les chiffres 1 à 4 représentent la fréquence d’utilisation des plateformes (1 = usage le plus fréquent).</p>
-                <ul style="list-style-type: disc; margin-left: 15px;"> <li><strong>Classe 1 : Les « hyper-actifs » (17.7% de l'échantillon)</strong>
-                        <ul style="list-style-type: circle; margin-top: 1px; margin-left: 10px;">
-                            <li><strong>Usage :</strong> Fréquence d’utilisation élevée (modalité 1, « plusieurs fois par jour ») sur <strong>toutes</strong> les plateformes (profil intensif et diversifié).</li>
-                            <li><strong>Genre :</strong> Plus de femmes (48.15%) que d’hommes (37.04%).</li>
-                            <li><strong>Âge :</strong> Moyenne de 36 ans (naissance 1989), avec une <strong>grande dispersion</strong> (Écart-type 19.2).</li>
-                            <li><strong>Profil :</strong> Forte représentation des <strong>étudiants</strong> (29.63%) et des <strong>inactifs</strong> (51.85%).</li>
-                            <li><strong>Politique :</strong> Surreprésentation de l’<strong>extrême gauche</strong> (22.22%) ou de la <strong>gauche</strong> (29.63%).</li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 8px;"><strong>Classe 2 : Les « sélectifs/occasionnels » (82.3% de l'échantillon)</strong>
-                        <ul style="list-style-type: circle; margin-top: 1px; margin-left: 10px;"> 
-                            <li><strong>Usage :</strong> Fréquence bien plus faible, surtout sur Snapchat et Tiktok.</li>
-                            <li><strong>Genre :</strong> Composée <strong>majoritairement d’hommes</strong>.</li>
-                            <li><strong>Âge :</strong> Profil plus mature, moyenne de 38 ans (naissance 1987), avec une <strong>dispersion plus faible</strong> (Écart-type 14.6).</li>
-                            <li><strong>Profil :</strong> Dominé par les <strong>cadres</strong> (36%) et les <strong>salariés stables</strong> (41.61%).</li>
-                            <li><strong>Politique :</strong> La <strong>gauche</strong> est surreprésentée (41.45%).</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </li>
+<p><strong>Objectifs d'apprentissage :</strong></p>
+    <ul style="list-style-type: none; padding-left: 20px;">
+        <li style="margin-bottom: 8px;">🔹 <strong>SQL</strong> : Gestion, exploration et analyse approfondie des données.</li>
+        <li>🔹 <strong>Power BI</strong> : Conception de visualisations dynamiques.</li>
     </ul>
-</div>
 <hr>
-            
+
 <div class="clearfix">
-    <h3 id="correlation">5.4. Analyse de corrélation</h3>
-    <ul class="strategy-list">
-        <li class="objective">
-            <strong>Objectif : Quantifier la relation entre les usages de différentes plateformes.</strong>
-            <p>L’analyse de corrélation statistique a servi à mesurer le lien entre deux variables et à déterminer si l’utilisation d’une plateforme (comme Snapchat) est associée à l’utilisation d’une autre (comme Tiktok).</p>
-        </li>
-        <li class="follow-up">
-            <strong>Méthodologie : Corrélation statistique sur Jamovi.</strong>
-            <p>Le coefficient de <strong>Tau de Kendall B</strong>, une mesure de corrélation non paramétrique, a été utilisé pour évaluer la force et la direction de ces relations. Un Tau &gt; 0 indique une association positive, et un Tau &lt; 0 une association négative.</p>
-        </li>
-        <li class="solution">
-            <strong>Contribution à l'enquête : Mise en évidence d'écosystèmes d'usages spécifiques.</strong>
-            <p>Les résultats ont permis de structurer les pratiques numériques observées en ligne, démontrant qu'elles ne sont pas isolées mais s’organisent en <strong>écosystèmes d’usages</strong> propres à des typologies d’individus. Le tableau ci-dessous présente le Tau de Kendall B avec la p-value associée entre parenthèses.</p>
-        </li>
-    </ul>
-</div>
-            
-<div style="margin-top: 5px; margin-bottom: 20px; clear: both; overflow-x: auto;">
-    <table style="width: 100%; min-width: 700px; border-collapse: collapse; text-align: center; border: 1px solid #ccc; font-size: 0.95em;">
-        <thead>
-            <tr style="background-color: #eee;">
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Plateforme</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Indicateur</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Facebook</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Youtube</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Instagram</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">X</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Twitch</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Snapchat</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Tiktok</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Linkedin</th>
-                <th style="border: 0.5px solid #ccc; padding: 4px 6px;">Messagerie</th>
-            </tr>
-        </thead>
-        <tbody> 
-<tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Facebook</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Youtube</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.080</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.199</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Instagram</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.101</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.038</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.100</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.542</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">X</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.137</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.043</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.079</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.025</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.489</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.197</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Twitch</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99; font-weight: bold;">-0.147</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99; font-weight: bold;">0.233</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99; font-weight: bold;">-0.123</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.003</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.015</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.040</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.966</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Snapchat</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.010</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.032</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99;">0.262</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.027</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">-0.170</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.875</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.627</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.673</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.007</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Tiktok</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.008</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.091</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99;">0.234</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.185</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.123</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ff9999; font-weight: bold;">0.329</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.904</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.158</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.004</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.049</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Linkedin</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.108</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.024</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.078</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.132</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.012</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.123</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.081</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.085</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.702</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.207</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.033</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.842</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.057</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.213</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;"></td>
-    </tr>
-
-    <tr>
-        <td rowspan="2" style="border: 1px solid #ccc; padding: 4px 6px; font-weight: bold; text-align: left;">Messagerie</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">Tau de Kendall B</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffcc99;">0.208</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.021</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.144</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.063</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.004</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.068</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">-0.067</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ffff99;">0.171</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; font-style: italic;">p-value</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">< .001 </td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.737</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.019</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.303</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.942</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.289</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">0.295</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px; background-color: #ccffcc;">0.006</td>
-        <td style="border: 1px solid #ccc; padding: 4px 6px;">—</td>
-    </tr>
-        </tbody>
-        </table>
-        </div>
-            
-<div style="font-size: 0.85em; margin-bottom: 20px; text-align: center;">
-    <p style="margin: 4px 0; font-weight: bold;">Légende de la corrélation (Tau de Kendall B) :</p>
-    <span style="background-color: #ff9999; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Rouge : |&tau;<sub>b</sub>| &gt; 0.3 (Forte)</span>
-    <span style="background-color: #ffcc99; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Orange : 0.2 &le; |&tau;<sub>b</sub>| &le; 0.3 (Modérée)</span>
-    <span style="background-color: #ffff99; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Jaune : |&tau;<sub>b</sub>| &lt; 0.2 (Faible)</span>
-</div>
-
-<div style="font-size: 0.85em; margin-bottom: 20px; text-align: center;">
-    <p style="margin: 4px 0; font-weight: bold;">Légende de la signification (p-value) :</p>
-    <span style="background-color: #ccffcc; padding: 2px 6px; border: 1px solid #ccc; margin: 0 5px;">Vert : p-value &lt; 0.05 (Significative)</span>
-</div>
-        <hr>
-
-            <div class="profile-summary" style="
-                /* Modifications pour réduire l'imposition */
-                font-size: 0.95em; /* Réduction de la taille de la police */
-                padding: 10px; /* Réduction du padding (était 15px) */
-                
-                /* Styles de base maintenus */
-                border-left: 5px solid #0056b3; 
-                background-color: #f0f8ff; 
-                margin: 20px 0; 
-            ">
-                <h4 style="margin-top: 0; font-size: 1.1em;">Synthèse des écosystèmes d'usage (Corrélations significatives, p &lt; 0.05)</h4>
-    <p>L'analyse des corrélations de Kendall met en évidence des regroupements d'usages entre les différentes plateformes, révélant l'existence de "familles" d'utilisateurs.</p>
-    
-    <h5 style="margin-top: 20px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">Corrélation positives, portant alors des usages similaires</h5>
-    
-    <p style="margin-bottom: 15px;">
-        <strong>Snapchat et TikTok</strong> : La corrélation la plus forte confirme un chevauchement massif d'un public jeune.
-    </p>
-    <p style="margin-bottom: 15px;">
-        <strong>YouTube et Twitch</strong> : Cette association révèle des utilisateurs assidus de contenus vidéo et de direct.
-    </p>
-
-    <h5 style="margin-top: 20px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">Corrélation négatives révélant des audiences distinctes</h5>
-    
-    <p style="margin-bottom: 15px;">
-        <strong>Twitch et Facebook</strong> : Suggère que les utilisateurs de Facebook (souvent plus âgés) sont moins présents sur la plateforme de vidéo en direct (public plus jeune).
+    <h3 id="donnees">2. Présentation des données</h3>
+    <p>
+        L'étude repose sur la base de données <strong>passengers</strong> (tiré du jeu de données Titanic), regroupant des informations sur <strong>714 passagers</strong>. Ces données ont été extraites et explorées à l'aide de <strong>SQL</strong> afin de structurer les variables clés nécessaires à l'analyse de survie et à la création de visualisations sous Power BI.
     </p>
     <p>
-        <strong>Twitch et Snapchat/Instagram</strong> : Montre un clivage clair entre les publics adeptes du contenu éphémère et visuel et ceux de la plateforme spécialisée dans le jeu vidéo et le direct.
-    </p>
-    
-</div>
-<hr>
-
-
-<div class="clearfix">
-    <h3 id="conclusion">6. Conclusion</h3>
-    <ul class="strategy-list">
-        <li class="objective">
-            <strong>Apports scientifiques et interprétation</strong>
-            <p>Les analyses menées dans le cadre du projet AMULEX corroborent et enrichissent les travaux sociologiques majeurs sur la diversification des usages numériques (Pacouret et al., 2024 ; Neihouser et al., 2022).</p>
-            <p>L'<strong>Analyse en Classes Latentes (ACL)</strong> a permis d'établir une typologie claire des utilisateurs, révélant notamment l'existence d'un <strong>petit groupe multiplateforme très actif, jeune, diplômé et politiquement engagé à gauche</strong>. L'<strong>ACM</strong> et les <strong>corrélations</strong> ont quant à elles démontré l'existence d'« <strong>écosystèmes d'usages</strong> » distincts : l'association forte entre <strong>Snapchat et TikTok</strong> (public jeune) d'un côté, et celle entre <strong>YouTube et Twitch</strong> (public vidéo assidu) de l'autre. Ces résultats confirment que les pratiques numériques sont le reflet direct de variables sociodémographiques.</p>
-        </li>
-        <li class="follow-up">
-            <strong>Nuances et limites du projet</strong>
-            <p>L'étude a fait face à plusieurs limites : un <strong>biais de recrutement</strong> ayant surreprésenté les profils très actifs et des <strong>contraintes techniques</strong> liés aux plateformes (Instagram, YouTube) qui ont orienté les choix méthodologiques.</p>
-        </li>
-        <li class="solution">
-            <strong>Bilan du stage</strong>
-            <p>Ce stage a été une transition concrète de la théorie à la pratique. Malgré les obstacles, mon travail de conception et de traitement a permis de créer une base de données solide pour le projet. Cette expérience a confirmé mon intérêt pour l'analyse de données sociologiques et m'a appris l'importance de la flexibilité face aux imprévus.</p>
-</div>
-<hr>
-
-<div class="clearfix">
-    <h3 id="competences">7. Compétences développées</h3>
+        Le jeu de données se décompose en plusieurs catégories de variables essentielles :
+    </p> 
     <ol class="cleaning-steps">
-        <li><strong>Compétences analytiques :</strong> Expertise dans l'application de l'ACL, l'ACM et des corrélations pour structurer et interpréter des données sociologiques complexes.</li>
-        <li><strong>Maîtrise de R :</strong> Conception d'un script R fonctionnel pour l'ACM.</li>
-        <li><strong>Maîtrise de Jamovi :</strong> Utilisation de Jamovi pour les statistiques descriptives, l'ACL et l'analyse de corrélation.</li>
-        <li><strong>Gestion de données complexes et structuration de BDD :</strong> Traitement et nettoyage de données qualitatives et quantitatives pour garantir la solidité et la pérennité de la base de données du projet AMULEX.</li>
-        <li><strong>Conception et adaptation de protocoles de collecte :</strong> Élaboration d'une stratégie de recrutement spécifique à YouTube et ajustement des méthodes face aux contraintes techniques des plateformes.</li>
-        <li><strong>Interprétation sociologique :</strong> Capacité à mettre en perspective les résultats statistiques avec les travaux théoriques pour enrichir les conclusions de l'étude.</li>
+        <li><strong>Identité et profil (individus)</strong> : <code>Name</code>, <code>Sex</code> et <code>Age</code>. </li>
+        <li><strong>Statut socio-économique</strong> : <code>Pclass</code> (classe de 1 à 3) et <code>Fare</code> (prix du billet). Ces données permetttent de mesurer l'influence de la richesse sur les chances de survie.</li>
+        <li><strong>Structure familiale</strong> : <code>SibSp</code> (frères, sœurs, époux) et <code>Parch</code> (parents, enfants). Ces variables ont été fusionnées avec SQL pour créer l'indicateur "Statut de voyage" (Seul.e vs En famille).</li>
+        <li><strong>Port d'embarquement</strong> : <code>Embarked</code> (port d'embarquement).</li>
+        <li><strong>Survie</strong> : <code>Survived</code> est l'indicateur binaire de survie.</li>
+    </ol>
+    <p style="margin-top: 20px;">
+            Chaque variable a été exploitée pour comprendre la corrélation entre le statut social et les chances de survie.
+    </p>
+</div>
+        <hr>    
+        
+            <!-- 3. Nettoyage -->
+<div class="clearfix">
+    <h3 id="nettoyage">3. Nettoyage et préparation des données</h3>
+    <p>Le nettoyage et la structuration des données ont été intégralement réalisés en <strong>SQL</strong>. Cette préparation a été cruciale pour transformer la base brute en un jeu de données exploitable pour l'analyse statistique et la 
+        visualisation. Pour affiner l'analyse, j'ai créé de nouvelles dimensions via des instructions <code> CASE WHEN</code> :</p>
+    <ol class="cleaning-steps">
+        <li><strong>Statut de voyage</strong> : Regroupement des passagers en catégories "Seul.e" ou "En famille" en calculant la somme des proches à bord <code>WHEN (SibSp + Parch) = 0 THEN 'Seul' ELSE 'En famille'</code>.</li>
+        <li><strong>Segmentation démographique</strong> : Création de tranches d'âge (ici : 'Moins de 18 ans', '18-35 ans', etc.).</li>
+        <li><strong>Segmentation tarifaire</strong> : Définition de catégories de billets (bas, milieu et haut de gamme) basée sur le calcul des <strong>quartiles</strong> (Q1=8.05, Q3=33.0) pour isoler l'impact du niveau de richesse.</li>
+    </ol>
+</div>
+<hr>
+            
+<div class="clearfix">
+                <h3 id="resultats">4.1 "Les femmes et les enfants d'abord !"</h3>
+                <a href="../mesdocuments/image_titanic_SurvieGenre_PowerBI.png" class="float-img-right lightbox-trigger" data-alt="Graphique 1 - Survie selon le genre">
+                    <img src="../mesdocuments/image_titanic_SurvieGenre_PowerBI.png" alt="Graphique 1 : Survie selon le genre">
+                </a>
+                <p>
+                    Le premier niveau de survie repose sur la règle "Les femmes et les enfants d'abord !". Le croisement <strong>âge et genre</strong> révèle des contrastes très marqués.
+                </p>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li>✅ <strong>Le genre le moins à risque :</strong> Les femmes ont un taux de survie très élevé avec un taux de <strong>74%</strong> de survie.</li>
+                    <li>❌ <strong>Le genre le plus à risque :</strong> Le risque de mortalité est concentré sur les hommes avec un taux de (<strong>18%</strong> de survie).</li>
+                </ul>
+
+</div>
+<div class="clearfix">
+                    
+                <a href="../mesdocuments/image_titanic_SurvieÂgeGenre_PowerBI.png" class="float-img-left lightbox-trigger" data-alt="Graphique 2 - Survie selon l'âge et le genre">
+                    <img src="../mesdocuments/image_titanic_SurvieÂgeGenre_PowerBI.png" alt="Graphique 2 : Survie selon l'âge et le genre">
+                </a>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li> <strong>Priorité à la jeunesse :</strong> Les passagers de moins de 18 ans ont bénéficié d'une plus grande protection que les plus âgés.</li>
+                </ul>
+    <p>
+        Cependant, le taux de survie des femmes progresse avec les années, passant de <strong>69%</strong> pour les moins de 18 ans à <strong>87%</strong> pour les plus de 56 ans.
+    </p>
+    <p>
+        Dès 18 ans, la survie masculine s'effondre et stagne autour de <strong>33%</strong>. Les 18-35 ans a été l'une des tranches d'âges les plus touchées, montrant que les hommes adultes ont été les principaux sacrifiés lors des opérations de sauvetage.
+    </p>
+    <p style="clear: both; padding-top: 10px;">
+        <strong>Le genre est donc un facteur prédominant</strong>, mais l'âge a agi comme un multiplicateur de chance pour les femmes et un facteur d'exclusion radical pour les hommes dès l'entrée dans l'âge adulte. On peut supposer que les hommes aidaient les femmes et les enfants à monter dans les canots de sauvetage, au péril de leur propre vie.
+    </p>
+</div>
+            <hr>
+
+            <div class="clearfix">
+                <h3 id="socioeconomique">4.2 L'influence du statut socio-économique</h3>
+                <p>
+                    Au-delà du genre et de l’âge, l’analyse démontre que le statut financier était un facteur déterminant, de l'embarquement jusqu'à l'accès aux canots de sauvetage.
+                </p>
+                
+                <div class="clearfix definition-block" style="border-left: 5px solid #007bff; padding: 15px; margin: 15px 0; background-color: #f7f9fc;">
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <strong style="color: #28a745;">1ère Classe (70,67% de survie)</strong>
+                            <p style="font-size: 0.9em; margin-bottom: 0;">Accès prioritaire et proximité des ponts supérieurs.</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <strong style="color: #dc3545;">3ème Classe (22,37% de survie)</strong>
+                            <p style="font-size: 0.9em; margin-bottom: 0;">Isolement dans les ponts inférieurs et accès restreints aux canots.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="../mesdocuments/image_titanic_SurvieAgeTarif_PowerBI.png" class="float-img-left lightbox-trigger" data-alt="Graphique 3 - Survie selon le port d'embarquement">
+                    <img src="../mesdocuments/image_titanic_SurvieAgeTarif_PowerBI.png" alt="Graphique 3 : Survie selon le port d'embarquement">
+                </a>
+                <p>
+                    <strong>Le tarif face à l’âge :</strong> L'analyse des segments tarifaires affine cette observation. Pour le segment <strong>"bas de gamme"</strong> (ligne verte), le taux de mortalité augmente de façon exponentielle avec l'âge. Plus un passager modeste était âgé, plus sa vulnérabilité était grande.
+                </p>
+                <p>
+                    À l'inverse, le <strong>« privilège du prix »</strong> est flagrant : à âge égal, un passager du segment <strong>"haut de gamme"</strong> (ligne bleue) conservait un taux de mortalité nettement inférieur, illustrant un accès facilité aux dispositifs de sauvetage.
+                </p>
+
+                <a href="../mesdocuments/Console_SQL_port_embarquementPclass.png" class="float-img-right lightbox-trigger" data-alt="Graphique 4 - Console SQL - Port d'embarquement selon la classe">
+                    <img src="../mesdocuments/Console_SQL_port_embarquementPclass.png" alt="Graphique 4 - Console SQL - Port d'embarquement selon la classe">
+                </a>
+                    <p>
+                        <strong>Le port d'embarquement comme marqueur social :</strong> Les passagers ayant embarqué à <strong>Cherbourg</strong> affichent le taux de survie le plus élevé (<strong>55%</strong>), avec Queenstown affichant <strong>38%</strong> de chance de survie et finalement <strong>33%</strong> pour Southampton.
+                    </p>
+                    <p>
+                    Ainsi, comme le montre la requête SQL, cette survie exceptionnelle s'explique par la nature des billets : <strong>Cherbourg a accueilli une proportion majoritaire de passagers en 1ère classe, donc ayant un billet "haut de gamme"</strong> (56% de 1ère classe). Ce contraste avec les autres ports, où les billets de 3ème classe prédominaient, confirme que l'origine géographique du passager servait d'indicateur indirect de son futur accès aux canots de sauvetage.
+                    </p>
+<p>
+    En résumé, le statut socio-économique a agi comme un filtre déterminant sur les chances de survie. Que ce soit par la proximité physique des canots (classe), la protection contre l'aléa de l'âge (tarif) ou le profil du port d'embarquement (Cherbourg), le <strong>privilège financier</strong> a systématiquement prévalu sur le risque, creusant un fossé de près de 50 points de survie entre l'élite et les classes les plus modestes.
+</p>
+            </div>
+            <hr>
+
+<div class="clearfix">
+    <h3 id="statut_voyage">4.3 L'influence du statut de voyage</h3>
+    <a href="../mesdocuments/image_titanic_SurvieStatut_PowerBI.PNG" class="float-img-left lightbox-trigger" data-alt="Graphique 5 - Survie selon le statut de voyage">
+        <img src="../mesdocuments/image_titanic_SurvieStatut_PowerBI.PNG" alt="Graphique 5 : Survie selon le statut de voyage" style="width: 300px">
+    </a>
+    <p>
+        Le destin des passagers a également été marqué par leur environnement social. La <strong>solidarité familiale</strong> a joué un rôle principal : les passagers voyageant « En famille » affichent un taux de survie de <strong>50%</strong>, contre seulement <strong>30%</strong> pour les isolés.
+    </p>
+</div>
+    <a href="../mesdocuments/image_titanic_SurvieTailleFamille_PowerBI.PNG" class="float-img-right lightbox-trigger" data-alt="Graphique 6 - Survie selon le statut de voyage - descriptif">
+        <img src="../mesdocuments/image_titanic_SurvieTailleFamille_PowerBI.PNG" alt="Graphique 6 : Survie selon le statut de voyage - descriptif">
+    </a>
+<div class="clearfix">    
+    <div style="margin: 0px 0; border-left: 5px solid #28a745; padding: 15px; background-color: #fafffa;">
+        <p>
+            L'analyse détaillée des structures familiales (variables <code>SibSp</code> et <code>Parch</code>) révèle une dynamique en "cloche" :
+        </p>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li style="margin-bottom: 10px;">
+                <strong>La taille idéale :</strong> Le taux de survie est optimal pour les petites familles composées de <strong>2 à 4 personnes</strong>, atteignant un sommet de <strong>57%</strong>.
+            </li>
+            <li>
+                <strong>Le fardeau des familles nombreuses :</strong> Au-delà de 3 accompagnateurs, les chances de survie chutent drastiquement, tombant à <strong>16%</strong>. 
+            </li>
+        </ul>
+    </div>
+
+    <p style="clear: both;">
+        Cette corrélation démontre que si l'entraide familiale a sauvé des vies, elle a aussi été un facteur de risque majeur pour les clans les plus nombreux, incapables de se déplacer rapidement vers les ponts supérieurs.
+    </p>
+</div>
+<hr style="clear: both; margin: 20px 0;">        
+
+<div class="clearfix">
+    <h3 id="conclusion">5. Conclusion</h3>
+    <p>
+        Ce projet démontre que la survie sur le Titanic n'était pas une simple question de chance, mais le résultat d'une <strong>hiérarchie sociale</strong>. L'analyse a permis d'isoler trois facteurs déterminants ayant scellé le destin des passagers :
+    </p>
+
+    <div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 200px; padding: 15px; background: #fff; border-top: 4px solid #007bff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <strong style="color: #007bff;">L'éthique & l'âge</strong>
+            <p style="font-size: 0.85em; margin-top: 10px;">Le principe "les femmes et les enfants d'abord" a protégé <strong>51%</strong> des enfants et <strong>74%</strong> des femmes, tandis que les hommes adultes devenaient les sacrifiés du sauvetage.</p>
+        </div>
+        <div style="flex: 1; min-width: 200px; padding: 15px; background: #fff; border-top: 4px solid #28a745; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <strong style="color: #28a745;">Le statut économique</strong>
+            <p style="font-size: 0.85em; margin-top: 10px;">L'accès aux canots était un privilège financier : la 1ère classe affiche <strong>62%</strong> de survie contre seulement <strong>24%</strong> en 3ème classe.</p>
+        </div>
+        <div style="flex: 1; min-width: 200px; padding: 15px; background: #fff; border-top: 4px solid #ffc107; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <strong style="color: #ffc107;">La structure familiale</strong>
+            <p style="font-size: 0.85em; margin-top: 10px;">Le noyau familial restreint a agi comme un catalyseur de survie, là où les familles nombreuses ont été freinées par leur propre nombre.</p>
+        </div>
+    </div>
+
+    <p style="font-style: italic; border-top: 1px solid #dee2e6; padding-top: 15px;">
+        D'un point de vue technique, ce datathon a validé la puissance du combo <strong>SQL et Power BI</strong> : le premier pour transformer des données brutes en informations structurées (segmentation tarifaire, calculs de parenté), le second pour rendre ces statistiques parlantes et visuelles.
+    </p>
+    <p>
+        Cependant, le format de 5 jours a représenté un défi de taille. La phase de familiarisation avec les logiciels a été plus chronophage que prévu, réduisant le temps imparti aux analyses approfondies. Bien que j'ai encore plusieurs pistes de réflexion pour obtenir une vision exhaustive de ce jeu de données, le délai imparti m'a obligé à me concentrer sur les variables les plus significatives de cette étude.
+    </p>
+</div>
+<hr>
+
+<div class="clearfix">
+    <h3 id="competences">6. Compétences développées</h3>
+    <ol class="cleaning-steps">
+        <li><strong>Maîtrise de SQL :</strong> Capacité à extraire, nettoyer et structurer des données brutes (nettoyage des valeurs nulles, calcul de colonnes complexes...).</li>
+        <li><strong>Maîtrise de Power BI :</strong> Conception de visualisations dynamiques et professionnelles permettant de transformer des statistiques abstraites en indicateurs visuels parlants.</li>
+        <li><strong>Analyse statistique et segmentation :</strong> Expertise dans la création de segments (tarifaires via les quartiles, tranches d'âge) pour isoler des facteurs de corrélation significatifs.</li>
+        <li><strong>Gestion de projet en temps limité (Datathon) :</strong> Capacité à monter en compétence sur de nouveaux logiciels de manière intensive et à produire une analyse cohérente sous une contrainte de 5 jours.</li>
+        <li><strong>Esprit critique et rigueur analytique :</strong> Identification des biais (données manquantes, anomalies tarifaires à 0) et des limites de l'étude pour garantir la fiabilité des résultats.</li>
     </ol>
 </div>
 </div>
