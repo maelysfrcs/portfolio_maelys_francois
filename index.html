@@ -138,10 +138,16 @@ body {
 }
 .project-button:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
 .project-button-bg {
-    width: 100%; height: 100%;
-    background-size: cover; background-position: center;
+    width: 100%; 
+    height: 100%;
+    /* On utilise cover pour que l'image remplisse tout le rectangle */
+    background-size: cover; 
+    /* "center 20%" permet de remonter un peu l'image si elle est trop basse, 
+       ou restez sur "center" pour un centrage parfait */
+    background-position: center; 
+    background-repeat: no-repeat;
     filter: grayscale(80%);
-    transition: filter 0.5s ease;
+    transition: filter 0.5s ease, transform 0.5s ease;
 }
 .project-button:hover .project-button-bg { filter: grayscale(0%); }
 
