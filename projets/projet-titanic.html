@@ -895,7 +895,7 @@ body {
 <div class="clearfix">
     <h3 id="donnees">2. Présentation des données</h3>
     <p>
-        L'étude repose sur la base de données <strong>passengers</strong> (tiré du jeu de données Titanic), regroupant des informations sur <strong>714 passagers</strong>. Ces données ont été extraites et explorées à l'aide de <strong>SQL</strong> afin de structurer les variables clés nécessaires à l'analyse de survie et à la création de visualisations sous Power BI.
+        L'étude repose sur la base de données <strong>passengers</strong> (tiré du jeu de données Titanic), regroupant des informations sur <strong>891 passagers</strong>. Ces données ont été extraites et explorées à l'aide de <strong>SQL</strong> afin de structurer les variables clés nécessaires à l'analyse de survie et à la création de visualisations sous Power BI.
     </p>
     <p>
         Le jeu de données se décompose en plusieurs catégories de variables essentielles :
@@ -916,8 +916,7 @@ body {
             <!-- 3. Nettoyage -->
 <div class="clearfix">
     <h3 id="nettoyage">3. Nettoyage et préparation des données</h3>
-    <p>Le nettoyage et la structuration des données ont été intégralement réalisés en <strong>SQL</strong>. Cette préparation a été cruciale pour transformer la base brute en un jeu de données exploitable pour l'analyse statistique et la 
-        visualisation. Pour affiner l'analyse, j'ai créé de nouvelles dimensions via des instructions <code> CASE WHEN</code> :</p>
+    <p>Le nettoyage et la structuration des données ont été essentiels pour transformer la base brute en un jeu de données exploitable pour l'analyse statistique et la visualisation. Pour affiner l'analyse, j'ai créé de nouvelles dimensions avec <code> CASE WHEN</code> :</p>
     <ol class="cleaning-steps">
         <li><strong>Statut de voyage</strong> : Regroupement des passagers en catégories "Seul.e" ou "En famille" en calculant la somme des proches à bord <code>WHEN (SibSp + Parch) = 0 THEN 'Seul' ELSE 'En famille'</code>.</li>
         <li><strong>Segmentation démographique</strong> : Création de tranches d'âge (ici : 'Moins de 18 ans', '18-35 ans', etc.).</li>
